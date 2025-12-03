@@ -4,10 +4,10 @@ import (
 	"cesjb/domain/entities"
 )
 
-func (s Service) CreateAssociated(name, cpf, email, tel string, date_of_birth, association_date string,
-	address string, donation_value float64, payment_date string, status bool) (*entities.Associated, error) {
+func (s Service) CreateAssociate(name, cpf, email, tel string, date_of_birth, association_date string,
+	address string, donation_value float64, payment_date string, status bool) (*entities.Associate, error) {
 
-	newAssociated := entities.Associated{
+	newAssociated := entities.Associate{
 		Name:            name,
 		CPF:             cpf,
 		Email:           email,
@@ -20,7 +20,7 @@ func (s Service) CreateAssociated(name, cpf, email, tel string, date_of_birth, a
 		Status:          status,
 	}
 
-	id, err := s.repository.SaveAssociated(newAssociated)
+	id, err := s.repository.SaveAssociate(newAssociated)
 	if err != nil {
 		return nil, err
 	}

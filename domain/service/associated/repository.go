@@ -3,5 +3,5 @@ package associated
 import "cesjb/domain/entities"
 
 type Repository interface {
-	SaveAssociated(data entities.Associated) (int, error)
+	SaveAssociate(data entities.Associate) (int, error)
 }

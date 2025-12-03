@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-func ValidateAssociated(
+func ValidateAssociate(
 	name string,
 	cpf string,
 	email string,
