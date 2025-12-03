@@ -2,11 +2,10 @@ package associated
 
 import (
 	"cesjb/domain/entities"
-	"time"
 )
 
-func (s Service) CreateAssociated(name, cpf, email, tel string, date_of_birth, association_date time.Time,
-	address string, donation_value float64, payment_date time.Time, status bool) (*entities.Associated, error) {
+func (s Service) CreateAssociated(name, cpf, email, tel string, date_of_birth, association_date string,
+	address string, donation_value float64, payment_date string, status bool) (*entities.Associated, error) {
 
 	newAssociated := entities.Associated{
 		Name:            name,

@@ -1,4 +1,4 @@
-package main
+package api
 
 import (
 	service "cesjb/domain/service/associated"
