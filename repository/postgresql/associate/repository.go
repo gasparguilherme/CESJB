@@ -1,4 +1,4 @@
-package associated
+package associate
 
 import "github.com/jackc/pgx/v5"
 
