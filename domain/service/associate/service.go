@@ -1,4 +1,4 @@
-package associated
+package associate
 
 type Service struct {
 	repository Repository

@@ -1,4 +1,4 @@
-package associated
+package associate
 
 type Handler struct {
 	service Service

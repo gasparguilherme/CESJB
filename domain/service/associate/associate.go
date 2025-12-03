@@ -1,4 +1,4 @@
-package associated
+package associate
 
 import (
 	"cesjb/domain/entities"
