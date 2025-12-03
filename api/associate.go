@@ -8,7 +8,7 @@ import (
 	"github.com/jackc/pgx/v5"
 )
 
-func InitAssociated(conn *pgx.Conn) handler.Handler {
+func InitAssociate(conn *pgx.Conn) handler.Handler {
 	r := associated.NewPostgresRepository(conn)
 	s := service.NewService(r)
 	h := handler.NewHandler(s)
