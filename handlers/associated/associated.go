@@ -17,13 +17,23 @@ func (h Handler) CreateAssociated(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// VALIDAÇÃO: verifique o erro aqui!
+	err = ValidateAssociated(associatedRequest.Name, associatedRequest.CPF, associatedRequest.Email,
+		associatedRequest.Tel, associatedRequest.DateOfBirth, associatedRequest.AssociationDate, associatedRequest.Address,
+		associatedRequest.DonationValue, associatedRequest.PaymentDate)
+
+	if err != nil {
+		slog.Error("erro de validação", "error", err)
+		http.Error(w, err.Error(), http.StatusBadRequest) // ← Retorne o erro de validação
+		return
+	}
+
 	create, err := h.service.CreateAssociated(associatedRequest.Name, associatedRequest.CPF, associatedRequest.Email,
 		associatedRequest.Tel, associatedRequest.DateOfBirth, associatedRequest.AssociationDate, associatedRequest.Address,
 		associatedRequest.DonationValue, associatedRequest.PaymentDate, associatedRequest.Status)
 	if err != nil {
 		slog.Error("erro ao criar usuario", "error", err)
 		http.Error(w, "erro ao criar usuario", http.StatusBadRequest)
-
 		return
 	}
 
@@ -33,5 +43,4 @@ func (h Handler) CreateAssociated(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "ocorreu um erro inesperado", http.StatusInternalServerError)
 		return
 	}
-
 }
