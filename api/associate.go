@@ -1,9 +1,9 @@
 package api
 
 import (
-	service "cesjb/domain/service/associated"
-	handler "cesjb/handlers/associated"
-	"cesjb/repository/postgresql/associated"
+	service "cesjb/domain/service/associate"
+	handler "cesjb/handlers/associate"
+	associated "cesjb/repository/postgresql/associate"
 
 	"github.com/jackc/pgx/v5"
 )
