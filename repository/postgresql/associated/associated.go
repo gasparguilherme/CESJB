@@ -19,7 +19,7 @@ func (r Repository) SaveAssociated(data entities.Associated) (int, error) {
 		data.Name,            // $1
 		data.CPF,             // $2
 		data.Email,           // $3
-		data.Tel,             // $4  <-- Agora incluído
+		data.Tel,             // $4
 		data.DateOfBirth,     // $5
 		data.AssociationDate, // $6
 		data.Address,         // $7
