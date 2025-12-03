@@ -1,6 +1,6 @@
 package entities
 
-type Associated struct {
+type Associate struct {
 	ID              int     `json:"id"`
 	Name            string  `json:"name"`
 	CPF             string  `json:"cpf"`

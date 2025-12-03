@@ -6,7 +6,7 @@ import (
 	"fmt"
 )
 
-func (r Repository) SaveAssociated(data entities.Associated) (int, error) {
+func (r Repository) SaveAssociate(data entities.Associate) (int, error) {
 	query := `
     INSERT INTO associated(name, cpf, email, tel, date_of_birth, association_date, address,
     donation_value, payment_date, status)

@@ -7,8 +7,8 @@ import (
 	"net/http"
 )
 
-func (h Handler) CreateAssociated(w http.ResponseWriter, r *http.Request) {
-	var associatedRequest entities.Associated
+func (h Handler) CreateAssociate(w http.ResponseWriter, r *http.Request) {
+	var associatedRequest entities.Associate
 
 	err := json.NewDecoder(r.Body).Decode(&associatedRequest)
 	if err != nil {
@@ -18,7 +18,7 @@ func (h Handler) CreateAssociated(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// VALIDAÇÃO: verifique o erro aqui!
-	err = ValidateAssociated(associatedRequest.Name, associatedRequest.CPF, associatedRequest.Email,
+	err = ValidateAssociate(associatedRequest.Name, associatedRequest.CPF, associatedRequest.Email,
 		associatedRequest.Tel, associatedRequest.DateOfBirth, associatedRequest.AssociationDate, associatedRequest.Address,
 		associatedRequest.DonationValue, associatedRequest.PaymentDate)
 
@@ -28,7 +28,7 @@ func (h Handler) CreateAssociated(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	create, err := h.service.CreateAssociated(associatedRequest.Name, associatedRequest.CPF, associatedRequest.Email,
+	create, err := h.service.CreateAssociate(associatedRequest.Name, associatedRequest.CPF, associatedRequest.Email,
 		associatedRequest.Tel, associatedRequest.DateOfBirth, associatedRequest.AssociationDate, associatedRequest.Address,
 		associatedRequest.DonationValue, associatedRequest.PaymentDate, associatedRequest.Status)
 	if err != nil {

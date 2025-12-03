@@ -5,7 +5,7 @@ import "net/http"
 func StartApp(associatedHandler Associated) {
 	mux := http.NewServeMux()
 
-	mux.Handle("POST /associated", http.HandlerFunc(associatedHandler.CreateAssociated))
+	mux.Handle("POST /associate", http.HandlerFunc(associatedHandler.CreateAssociate))
 
 	http.ListenAndServe(":8088", mux)
 
