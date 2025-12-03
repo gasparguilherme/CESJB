@@ -2,6 +2,6 @@ package api
 
 import "net/http"
 
-type Associated interface {
+type Associate interface {
 	CreateAssociate(w http.ResponseWriter, r *http.Request)
 }
