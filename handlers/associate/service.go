@@ -10,4 +10,5 @@ type Service interface {
 		address string, donation_value float64, payment_date time.Time, status bool) (*entities.Associate, error)
 
 	ListAssociates() ([]entities.Associate, error)
+	GetByID(id int) (*entities.Associate, error)
 }
