@@ -2,8 +2,8 @@ package associate
 
 import (
 	"errors"
-	"regexp"
 	"strings"
+	"time"
 )
 
 func ValidateAssociate(
@@ -11,14 +11,14 @@ func ValidateAssociate(
 	cpf string,
 	email string,
 	tel string,
-	dateOfBirth string,
-	associationDate string,
+	dateOfBirth time.Time,
+	associationDate time.Time,
 	address string,
 	donationValue float64,
-	paymentDate string,
+	paymentDate time.Time,
 ) error {
 
-	// valida campos de texto vazios
+	// valida campos string vazios
 	switch "" {
 	case strings.TrimSpace(name):
 		return errors.New("o nome não pode estar vazio")
@@ -32,39 +32,23 @@ func ValidateAssociate(
 	case strings.TrimSpace(tel):
 		return errors.New("o telefone não pode estar vazio")
 
-	case strings.TrimSpace(dateOfBirth):
-		return errors.New("a data de nascimento não pode estar vazia")
-
-	case strings.TrimSpace(associationDate):
-		return errors.New("a data de associação não pode estar vazia")
-
 	case strings.TrimSpace(address):
 		return errors.New("o endereço não pode estar vazio")
+	}
 
-	case strings.TrimSpace(paymentDate):
+	// valida datas obrigatórias
+	if dateOfBirth.IsZero() {
+		return errors.New("a data de nascimento não pode estar vazia")
+	}
+
+	if associationDate.IsZero() {
+		return errors.New("a data de associação não pode estar vazia")
+	}
+
+	// paymentDate pode ser opcional — depende da regra do seu sistema.
+	// Se quiser tornar obrigatório:
+	if paymentDate.IsZero() {
 		return errors.New("a data de pagamento não pode estar vazia")
-	}
-
-	// CPF: 11 dígitos
-	cpfRegex := regexp.MustCompile(`^\d{11}$`)
-	if !cpfRegex.MatchString(cpf) {
-		return errors.New("o cpf deve conter 11 dígitos numéricos")
-	}
-
-	// email simples
-	emailRegex := regexp.MustCompile(`^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$`)
-	if !emailRegex.MatchString(email) {
-		return errors.New("email inválido")
-	}
-
-	// telefone somente números
-	telRegex := regexp.MustCompile(`^\d{8,15}$`)
-	if !telRegex.MatchString(tel) {
-		return errors.New("telefone inválido: use somente números")
-	}
-
-	if donationValue < 0 {
-		return errors.New("o valor da doação não pode ser negativo")
 	}
 
 	return nil
