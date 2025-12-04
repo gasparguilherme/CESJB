@@ -28,10 +28,10 @@ func main() {
 	}
 
 	slog.Info("Conexão estabelcida com sucesso")
-	associate := api.InitAssociate(conn)
-	getAssociate := api.InitAssociate(conn)
-	getByID := api.InitAssociate(conn)
+	associateHandler := api.InitAssociate(conn)
+	listHandler := api.InitAssociate(conn)
+	getByIDHandler := api.InitAssociate(conn)
 
-	api.StartApp(associate, getAssociate, getByID)
+	api.StartApp(associateHandler, listHandler, getByIDHandler)
 
 }
