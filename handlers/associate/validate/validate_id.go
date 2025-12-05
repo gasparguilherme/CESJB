@@ -1,4 +1,4 @@
-package associate
+package validate
 
 import (
 	"errors"

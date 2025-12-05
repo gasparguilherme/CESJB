@@ -2,6 +2,7 @@ package associate
 
 import (
 	"cesjb/domain/entities"
+	"cesjb/handlers/associate/validate"
 	"encoding/json"
 	"log/slog"
 	"net/http"
@@ -18,7 +19,7 @@ func (h Handler) CreateAssociate(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// VALIDAÇÃO: verifique o erro aqui!
-	err = ValidateAssociate(associatedRequest.Name, associatedRequest.CPF, associatedRequest.Email,
+	err = validate.ValidateAssociate(associatedRequest.Name, associatedRequest.CPF, associatedRequest.Email,
 		associatedRequest.Tel, associatedRequest.DateOfBirth, associatedRequest.AssociationDate, associatedRequest.Address,
 		associatedRequest.DonationValue, associatedRequest.PaymentDate)
 

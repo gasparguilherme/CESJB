@@ -1,6 +1,7 @@
 package associate
 
 import (
+	"cesjb/handlers/associate/validate"
 	"encoding/json"
 	"log/slog"
 	"net/http"
@@ -15,7 +16,7 @@ func (h Handler) GetByID(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "ID invalido", http.StatusBadRequest)
 		return
 	}
-	err = ValidateID(id)
+	err = validate.ValidateID(id)
 	if err != nil {
 		slog.Error("erro ao buscar ID", "error", err)
 		http.Error(w, "ID invalido", http.StatusBadRequest)

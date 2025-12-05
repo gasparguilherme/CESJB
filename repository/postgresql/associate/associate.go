@@ -16,16 +16,16 @@ func (r Repository) SaveAssociate(data entities.Associate) (int, error) {
 
 	var id int
 	err := r.connectionInstance.QueryRow(context.TODO(), query,
-		data.Name,            // $1
-		data.CPF,             // $2
-		data.Email,           // $3
-		data.Tel,             // $4
-		data.DateOfBirth,     // $5
-		data.AssociationDate, // $6
-		data.Address,         // $7
-		data.DonationValue,   // $8
-		data.PaymentDate,     // $9
-		data.Status,          // $10
+		data.Name,
+		data.CPF,
+		data.Email,
+		data.Tel,
+		data.DateOfBirth,
+		data.AssociationDate,
+		data.Address,
+		data.DonationValue,
+		data.PaymentDate,
+		data.Status,
 	).Scan(&id)
 
 	if err != nil {
