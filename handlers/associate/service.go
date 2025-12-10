@@ -12,4 +12,5 @@ type Service interface {
 	GetByID(id int) (*entities.Associate, error)
 	UpdateAssociate(id int, name, email, tel string, dateOfBirth, associationDate time.Time,
 		address string, donationValue float64, paymentDate time.Time, status bool) (int, error)
+	GetAssociateByCPF(cpf string) (entities.Associate, error)
 }
