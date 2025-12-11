@@ -9,3 +9,7 @@ type Associate interface {
 	UpdateAssociate(w http.ResponseWriter, r *http.Request)
 	GetAssociateByCPF(w http.ResponseWriter, r *http.Request)
 }
+
+type Admin interface {
+	CreateAdmin(w http.ResponseWriter, r *http.Request)
+}
