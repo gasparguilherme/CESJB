@@ -1,13 +1,12 @@
-package entities
+package associate
 
 import (
 	"cesjb/types_"
 )
 
-type Associate struct {
+type UpdateAssociate struct {
 	ID              int             `json:"id"`
 	Name            string          `json:"name"`
-	CPF             string          `json:"cpf"`
 	Email           string          `json:"email"`
 	Tel             string          `json:"tel"`
 	DateOfBirth     types_.DateOnly `json:"date_of_birth"`    // data de nascimento
