@@ -3,7 +3,6 @@ package associate
 import (
 	"cesjb/dto/associate"
 	"cesjb/handlers/associate/validate"
-	"cesjb/types_"
 	"encoding/json"
 	"fmt"
 	"log/slog"
@@ -48,7 +47,7 @@ func (h Handler) UpdateAssociate(w http.ResponseWriter, r *http.Request) {
 
 	// 7. Chamar service
 	updatedID, err := h.service.UpdateAssociate(input.ID, input.Name, input.Email, input.Tel, input.DateOfBirth,
-		types_.DateOnly.AssociationDate, input.Address, input.DonationValue, input.PaymentDate, input.Status)
+		input.AssociationDate, input.Address, input.DonationValue, input.PaymentDate, input.Status)
 	if err != nil {
 		slog.Error("erro ao atualizar associado", "error", err)
 		http.Error(w, "erro ao atualizar associado", http.StatusInternalServerError)
