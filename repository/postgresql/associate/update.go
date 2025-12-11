@@ -1,12 +1,12 @@
 package associate
 
 import (
-	"cesjb/dto"
+	"cesjb/dto/associate"
 	"context"
 	"fmt"
 )
 
-func (r Repository) UpdateAssociate(input dto.UpdateAssociate) (int, error) {
+func (r Repository) UpdateAssociate(input associate.UpdateAssociate) (int, error) {
 	query := `
         UPDATE associates
         SET 

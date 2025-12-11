@@ -1,13 +1,13 @@
 package validate
 
 import (
-	"cesjb/dto"
+	"cesjb/dto/associate"
 	"errors"
 	"strings"
 )
 
 // ValidateAssociate valida os campos do DTO de atualização de associado
-func ValidateDTO(input dto.UpdateAssociate) error {
+func ValidateDTO(input associate.UpdateAssociate) error {
 	// valida campos string vazios
 	switch "" {
 	case strings.TrimSpace(input.Name):
