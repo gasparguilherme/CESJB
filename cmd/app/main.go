@@ -38,7 +38,9 @@ func main() {
 
 	//Admin
 	adminHandler := api.InitAdmin(conn)
+	loginHandler := api.InitAdmin(conn)
 
-	api.StartApp(associateHandler, listHandler, getByIDHandler, updateAssociateHandler, getAssociateByCPF, adminHandler)
+	api.StartApp(associateHandler, listHandler, getByIDHandler, updateAssociateHandler, getAssociateByCPF,
+		adminHandler, loginHandler)
 
 }

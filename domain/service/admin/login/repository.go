@@ -1,8 +1,7 @@
-package admin
+package login
 
 import "cesjb/domain/entities"
 
 type Repository interface {
-	SaveAdmin(data entities.Admin) (int, error)
 	FindAdminByEmail(email string) (*entities.Admin, error)
 }

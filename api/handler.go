@@ -13,3 +13,7 @@ type Associate interface {
 type Admin interface {
 	CreateAdmin(w http.ResponseWriter, r *http.Request)
 }
+
+type Login interface {
+	FindAdminByEmail(w http.ResponseWriter, r *http.Request)
+}
