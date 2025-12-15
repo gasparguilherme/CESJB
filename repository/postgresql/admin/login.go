@@ -6,7 +6,7 @@ import (
 	"fmt"
 )
 
-func (r Repository) FindUserByEmail(email string) (*entities.Admin, error) {
+func (r Repository) FindAdminByEmail(email string) (*entities.Admin, error) {
 
 	var admin entities.Admin
 
