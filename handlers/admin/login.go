@@ -1,14 +1,14 @@
-package login
+package admin
 
 import (
-	"cesjb/domain/service/admin/login"
+	"cesjb/domain/service/admin"
 	"encoding/json"
 	"log/slog"
 	"net/http"
 )
 
 func (h Handler) FindAdminByEmail(w http.ResponseWriter, r *http.Request) {
-	var loginData login.Login
+	var loginData admin.Login
 
 	err := json.NewDecoder(r.Body).Decode(&loginData)
 	if err != nil {
