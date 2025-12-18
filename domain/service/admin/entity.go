@@ -1,4 +1,4 @@
-package login
+package admin
 
 type Login struct {
 	Email    string `json:"email"`

@@ -1,4 +1,4 @@
-package login
+package admin
 
 import (
 	"cesjb/domain/entities"

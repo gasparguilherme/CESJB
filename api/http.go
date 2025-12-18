@@ -5,7 +5,7 @@ import (
 )
 
 func StartApp(associateHandler, listAssociatesHandler, getAssociateByIDHandler, updateAssociateHandler,
-	getAssociateByCPF Associate, adminHandler Admin, loginHandler Login) {
+	getAssociateByCPF Associate, adminHandler, loginHandler Admin) {
 	mux := http.NewServeMux()
 	// Rotas Associado
 	mux.Handle("POST /associate", http.HandlerFunc(associateHandler.CreateAssociate))
