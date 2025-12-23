@@ -16,6 +16,7 @@ func ValidateAssociate(
 	address string,
 	donationValue float64,
 	paymentDate time.Time,
+	position string,
 ) error {
 
 	// valida campos string vazios
@@ -34,6 +35,9 @@ func ValidateAssociate(
 
 	case strings.TrimSpace(address):
 		return errors.New("o endereço não pode estar vazio")
+
+	case strings.TrimSpace(position):
+		return errors.New("o cargo não pode estar vazio")
 	}
 
 	// valida datas obrigatórias

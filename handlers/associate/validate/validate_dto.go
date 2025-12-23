@@ -18,6 +18,8 @@ func ValidateDTO(input associate.UpdateAssociate) error {
 		return errors.New("o telefone não pode estar vazio")
 	case strings.TrimSpace(input.Address):
 		return errors.New("o endereço não pode estar vazio")
+	case strings.TrimSpace(input.Position):
+		return errors.New("o cargo não pode estar vazio")
 	}
 
 	// valida datas obrigatórias

@@ -21,7 +21,7 @@ func (h Handler) CreateAssociate(w http.ResponseWriter, r *http.Request) {
 	// VALIDAÇÃO: verifique o erro aqui!
 	err = validate.ValidateAssociate(associatedRequest.Name, associatedRequest.CPF, associatedRequest.Email,
 		associatedRequest.Tel, associatedRequest.DateOfBirth, associatedRequest.AssociationDate, associatedRequest.Address,
-		associatedRequest.DonationValue, associatedRequest.PaymentDate)
+		associatedRequest.DonationValue, associatedRequest.PaymentDate, associatedRequest.Position)
 
 	if err != nil {
 		slog.Error("erro de validação", "error", err)
