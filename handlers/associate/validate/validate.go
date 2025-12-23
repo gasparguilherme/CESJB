@@ -40,6 +40,17 @@ func ValidateAssociate(
 		return errors.New("o cargo não pode estar vazio")
 	}
 
+	// valida cpf sem pontos
+	if len(cpf) != 11 {
+		return errors.New("o cpf deve conter exatamente 11 dígitos")
+	}
+
+	for _, r := range cpf {
+		if r < '0' || r > '9' {
+			return errors.New("o cpf deve conter apenas números")
+		}
+	}
+
 	// valida datas obrigatórias
 	if dateOfBirth.IsZero() {
 		return errors.New("a data de nascimento não pode estar vazia")
@@ -49,8 +60,6 @@ func ValidateAssociate(
 		return errors.New("a data de associação não pode estar vazia")
 	}
 
-	// paymentDate pode ser opcional — depende da regra do seu sistema.
-	// Se quiser tornar obrigatório:
 	if paymentDate.IsZero() {
 		return errors.New("a data de pagamento não pode estar vazia")
 	}

@@ -11,7 +11,7 @@ import (
 func (r Repository) GetAssociateByCPF(cpf string) (*entities.Associate, error) {
 	query := `
         SELECT id, name, cpf, email, tel, date_of_birth, association_date,
-               address, donation_value, payment_date, status
+               address, donation_value, payment_date, status, position
         FROM associates
         WHERE cpf = $1
     `
@@ -29,7 +29,6 @@ func (r Repository) GetAssociateByCPF(cpf string) (*entities.Associate, error) {
 		&associate.DateOfBirth,
 		&associate.AssociationDate,
 		&associate.Address,
-		&associate.DonationValue,
 		&associate.PaymentDate,
 		&associate.Status,
 		&associate.Position,
