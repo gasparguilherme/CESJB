@@ -30,6 +30,7 @@ func (r Repository) GetByID(id int) (*entities.Associate, error) {
 		&associate.DonationValue,
 		&associate.PaymentDate,
 		&associate.Status,
+		&associate.Position,
 	)
 	if err != nil {
 		return nil, fmt.Errorf("erro ao buscar associado: %w", err)
