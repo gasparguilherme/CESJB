@@ -16,4 +16,5 @@ type Associate struct {
 	DonationValue   float64         `json:"donation_value"` // valor da doacao
 	PaymentDate     types_.DateOnly `json:"payment_date"`   // ultima data de pagamento
 	Status          bool            `json:"status"`
+	Position        string          `json:"position"`
 }

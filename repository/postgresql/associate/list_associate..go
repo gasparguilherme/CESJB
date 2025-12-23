@@ -19,7 +19,8 @@ func (r Repository) GetAssociates() ([]entities.Associate, error) {
             address,
             donation_value,
             payment_date,
-            status
+            status,
+			position
         FROM associates
         ORDER BY name ASC;
     `
@@ -46,6 +47,7 @@ func (r Repository) GetAssociates() ([]entities.Associate, error) {
 			&a.DonationValue,
 			&a.PaymentDate,
 			&a.Status,
+			&a.Position,
 		)
 		if err != nil {
 			return nil, fmt.Errorf("scanning row: %w", err)

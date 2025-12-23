@@ -32,6 +32,7 @@ func (r Repository) GetAssociateByCPF(cpf string) (*entities.Associate, error) {
 		&associate.DonationValue,
 		&associate.PaymentDate,
 		&associate.Status,
+		&associate.Position,
 	)
 
 	if err != nil {

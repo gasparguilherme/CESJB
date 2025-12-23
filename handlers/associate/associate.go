@@ -31,7 +31,7 @@ func (h Handler) CreateAssociate(w http.ResponseWriter, r *http.Request) {
 
 	create, err := h.service.CreateAssociate(associatedRequest.Name, associatedRequest.CPF, associatedRequest.Email,
 		associatedRequest.Tel, associatedRequest.DateOfBirth, associatedRequest.AssociationDate, associatedRequest.Address,
-		associatedRequest.DonationValue, associatedRequest.PaymentDate, associatedRequest.Status)
+		associatedRequest.DonationValue, associatedRequest.PaymentDate, associatedRequest.Status, associatedRequest.Position)
 	if err != nil {
 		slog.Error("erro ao criar usuario", "error", err)
 		http.Error(w, "erro ao criar usuario", http.StatusBadRequest)
