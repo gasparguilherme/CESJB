@@ -1,9 +1,9 @@
 package validate
 
 import (
-	"cesjb/types_"
 	"errors"
 	"strings"
+	"time"
 )
 
 func ValidateAssociate(
@@ -11,11 +11,11 @@ func ValidateAssociate(
 	cpf string,
 	email string,
 	tel string,
-	dateOfBirth types_.DateOnly,
-	associationDate types_.DateOnly,
+	dateOfBirth time.Time,
+	associationDate time.Time,
 	address string,
 	donationValue float64,
-	paymentDate types_.DateOnly,
+	paymentDate time.Time,
 ) error {
 
 	// valida campos string vazios
