@@ -2,13 +2,13 @@ package associate
 
 import (
 	"cesjb/dto/associate"
-	"cesjb/types_"
 	"errors"
 	"fmt"
+	"time"
 )
 
-func (s Service) UpdateAssociate(id int, name, email, tel string, dateOfBirth, associationDate types_.DateOnly,
-	address string, donationValue float64, paymentDate types_.DateOnly, status bool) (int, error) {
+func (s Service) UpdateAssociate(id int, name, email, tel string, dateOfBirth, associationDate time.Time,
+	address string, donationValue float64, paymentDate time.Time, status bool, position string) (int, error) {
 	associate := associate.UpdateAssociate{
 		ID:              id,
 		Name:            name,
@@ -20,6 +20,7 @@ func (s Service) UpdateAssociate(id int, name, email, tel string, dateOfBirth, a
 		DonationValue:   donationValue,
 		PaymentDate:     paymentDate,
 		Status:          status,
+		Position:        position,
 	}
 	updateID, err := s.repository.UpdateAssociate(associate)
 	if err != nil {
