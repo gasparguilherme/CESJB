@@ -19,7 +19,6 @@ func (r Repository) GetAssociateByCPF(cpf string) (*entities.Associate, error) {
 	row := r.connectionInstance.QueryRow(context.TODO(), query, cpf)
 
 	var associate entities.Associate
-
 	err := row.Scan(
 		&associate.ID,
 		&associate.Name,
@@ -29,6 +28,7 @@ func (r Repository) GetAssociateByCPF(cpf string) (*entities.Associate, error) {
 		&associate.DateOfBirth,
 		&associate.AssociationDate,
 		&associate.Address,
+		&associate.DonationValue,
 		&associate.PaymentDate,
 		&associate.Status,
 		&associate.Position,
