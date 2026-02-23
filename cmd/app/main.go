@@ -2,6 +2,7 @@ package main
 
 import (
 	"cesjb/api"
+	"cesjb/config"
 	"context"
 	"log/slog"
 	"os"
@@ -10,12 +11,11 @@ import (
 )
 
 func main() {
+	config.Load()
+
 	ctx := context.Background()
 
-	dbURL := "postgres://postgres:senha@localhost:5433/cesjb"
-
-	conn, err := pgx.Connect(ctx, dbURL)
-
+	conn, err := pgx.Connect(ctx, config.StringConnectionBase)
 	if err != nil {
 		slog.Error("Erro ao conectar no banco", "error", err.Error())
 		os.Exit(1)
