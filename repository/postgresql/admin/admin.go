@@ -8,7 +8,7 @@ import (
 
 func (r Repository) SaveAdmin(data entities.Admin) (int, error) {
 	query := `
-	INSERT INTO admin(name, email, password)
+	INSERT INTO admins(name, email, password)
     VALUES($1, $2, $3)
     RETURNING id;
 	`
