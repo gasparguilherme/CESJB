@@ -1,13 +1,14 @@
 package admin
 
 import (
+	"cesjb/authentication"
 	"cesjb/domain/service/admin"
 	"encoding/json"
 	"log/slog"
 	"net/http"
 )
 
-func (h Handler) FindAdminByEmail(w http.ResponseWriter, r *http.Request) {
+func (h Handler) Login(w http.ResponseWriter, r *http.Request) {
 	var loginData admin.Login
 
 	err := json.NewDecoder(r.Body).Decode(&loginData)
@@ -16,7 +17,7 @@ func (h Handler) FindAdminByEmail(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "JSON inválido", http.StatusBadRequest)
 		return
 	}
-	userLogged, err := h.service.FindAdminByEmail(loginData)
+	userLogged, err := h.service.Login(loginData)
 	if err != nil {
 		slog.Error("dados de login inválido", "error", err)
 		http.Error(w, "dados de login inválido", http.StatusUnauthorized)
@@ -29,5 +30,12 @@ func (h Handler) FindAdminByEmail(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "erro ao gerar resposta", http.StatusInternalServerError)
 		return
 	}
+
+	token, err := authentication.CreateToken(uint64(userLogged.ID))
+	if err != nil {
+		slog.Error("Erro ao gerar token", "erro", err)
+		http.Error(w, "Erro interno, tente novamente mais tarde", http.StatusInternalServerError)
+	}
+	w.Write([]byte(token))
 
 }

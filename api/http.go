@@ -16,7 +16,7 @@ func StartApp(associateHandler, listAssociatesHandler, getAssociateByIDHandler, 
 
 	//Rotas Admin
 	mux.Handle("POST /admin", http.HandlerFunc(adminHandler.CreateAdmin))
-	mux.Handle("POST /login", http.HandlerFunc(loginHandler.FindAdminByEmail))
+	mux.Handle("POST /login", http.HandlerFunc(loginHandler.Login))
 
 	http.ListenAndServe(":8088", mux)
 

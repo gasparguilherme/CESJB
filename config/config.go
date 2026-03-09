@@ -12,6 +12,9 @@ import (
 var (
 	StringConnectionBase = ""
 	APIPort              = 0
+
+	//chave que vai ser usada para assinar o token
+	SecretKey []byte
 )
 
 func Load() {
@@ -33,5 +36,7 @@ func Load() {
 		os.Getenv("DB_PASSWORD"),
 		os.Getenv("DB_NAME"),
 	)
+
+	SecretKey = []byte(os.Getenv("SECRET_KEY"))
 
 }
