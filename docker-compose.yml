@@ -1,0 +1,17 @@
+version: "3.9"
+
+services: 
+  go_db_cesjb:
+    container_name: go_db_cesjb
+    image: postgres:12
+    environment: 
+      POSTGRES_PASSWORD: Xtz450***
+      POSTGRES_USER: postgres
+      POSTGRES_DB: cesjb_db
+    ports:
+      - "5438:5432"
+    volumes:
+      - cesjb_pgdata:/var/lib/postgresql/data
+
+volumes:
+  cesjb_pgdata: {}
