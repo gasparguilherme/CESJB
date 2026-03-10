@@ -10,19 +10,20 @@ func StartApp(associateHandler, listAssociatesHandler, getAssociateByIDHandler, 
 	mux := http.NewServeMux()
 
 	// Rotas Associado
-	mux.Handle(
-		"POST /associate",
-		middlewares.Logger(
-			middlewares.Authenticate(
-				http.HandlerFunc(associateHandler.CreateAssociate),
-			),
-		),
-	)
+	mux.Handle("POST /associate", middlewares.Logger(middlewares.Authenticate(
+		http.HandlerFunc(associateHandler.CreateAssociate))))
 
-	mux.Handle("GET /associates", http.HandlerFunc(listAssociatesHandler.GetAssociates))
-	mux.Handle("GET /associate/id/{id}", http.HandlerFunc(getAssociateByIDHandler.GetByID))
-	mux.Handle("PUT /associate/{id}", http.HandlerFunc(updateAssociateHandler.UpdateAssociate))
-	mux.Handle("GET /associate/cpf/{cpf}", http.HandlerFunc(getAssociateByCPF.GetAssociateByCPF))
+	mux.Handle("GET /associates", middlewares.Logger(middlewares.Authenticate(
+		http.HandlerFunc(listAssociatesHandler.GetAssociates))))
+
+	mux.Handle("GET /associate/id/{id}", middlewares.Logger(middlewares.Authenticate(
+		http.HandlerFunc(getAssociateByIDHandler.GetByID))))
+
+	mux.Handle("PUT /associate/{id}", middlewares.Logger(middlewares.Authenticate(
+		http.HandlerFunc(updateAssociateHandler.UpdateAssociate))))
+
+	mux.Handle("GET /associate/cpf/{cpf}", middlewares.Logger(middlewares.Authenticate(
+		http.HandlerFunc(getAssociateByCPF.GetAssociateByCPF))))
 
 	//Rotas Admin
 	mux.Handle("POST /admin", http.HandlerFunc(adminHandler.CreateAdmin))
