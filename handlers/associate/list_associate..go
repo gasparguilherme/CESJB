@@ -2,21 +2,31 @@ package associate
 
 import (
 	"encoding/json"
+	"log/slog"
 	"net/http"
 )
 
 func (h Handler) GetAssociates(w http.ResponseWriter, r *http.Request) {
 	associates, err := h.service.ListAssociates()
 	if err != nil {
-		http.Error(w, "Erro ao buscar associados: "+err.Error(), http.StatusInternalServerError)
+		slog.Error("erro ao buscar associados", "error", err)
+
+		w.WriteHeader(http.StatusInternalServerError)
+		json.NewEncoder(w).Encode(map[string]string{
+			"error": "erro ao buscar associados",
+		})
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 
 	if err := json.NewEncoder(w).Encode(associates); err != nil {
-		http.Error(w, "Erro ao gerar resposta JSON: "+err.Error(), http.StatusInternalServerError)
+		slog.Error("erro ao gerar resposta JSON", "error", err)
+
+		w.WriteHeader(http.StatusInternalServerError)
+		json.NewEncoder(w).Encode(map[string]string{
+			"error": "erro ao gerar resposta JSON",
+		})
 		return
 	}
 

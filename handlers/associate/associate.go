@@ -14,7 +14,11 @@ func (h Handler) CreateAssociate(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&associatedRequest)
 	if err != nil {
 		slog.Error("não foi possivel interpretar o JSON", "error", err)
-		http.Error(w, "ocorreu um erro inesperado", http.StatusInternalServerError)
+
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(map[string]string{
+			"error": "json inválido",
+		})
 		return
 	}
 
@@ -25,7 +29,11 @@ func (h Handler) CreateAssociate(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		slog.Error("erro de validação", "error", err)
-		http.Error(w, err.Error(), http.StatusBadRequest) // ← Retorne o erro de validação
+
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(map[string]string{
+			"error": err.Error(),
+		})
 		return
 	}
 
@@ -34,14 +42,23 @@ func (h Handler) CreateAssociate(w http.ResponseWriter, r *http.Request) {
 		associatedRequest.DonationValue, associatedRequest.PaymentDate, associatedRequest.Status, associatedRequest.Position)
 	if err != nil {
 		slog.Error("erro ao criar usuario", "error", err)
-		http.Error(w, "erro ao criar usuario", http.StatusBadRequest)
+
+		w.WriteHeader(http.StatusInternalServerError)
+		json.NewEncoder(w).Encode(map[string]string{
+			"error": "erro ao criar associado",
+		})
 		return
 	}
+	w.WriteHeader(http.StatusCreated)
 
 	err = json.NewEncoder(w).Encode(create)
 	if err != nil {
 		slog.Error("erro ao converter para formato JSON", "error", err)
-		http.Error(w, "ocorreu um erro inesperado", http.StatusInternalServerError)
+
+		w.WriteHeader(http.StatusInternalServerError)
+		json.NewEncoder(w).Encode(map[string]string{
+			"error": "erro ao gerar resposta",
+		})
 		return
 	}
 }
