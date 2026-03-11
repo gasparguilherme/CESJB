@@ -13,13 +13,21 @@ func (h Handler) GetByID(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(rawID)
 	if err != nil {
 		slog.Error("erro ao converter id para inteiro", "id", rawID, "error", err)
-		http.Error(w, "ID invalido", http.StatusBadRequest)
+
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(map[string]string{
+			"error": "id inválido",
+		})
 		return
 	}
 	err = validate.ValidateID(id)
 	if err != nil {
 		slog.Error("erro ao buscar ID", "error", err)
-		http.Error(w, "ID invalido", http.StatusBadRequest)
+
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(map[string]string{
+			"error": "id inválido",
+		})
 		return
 
 	}
@@ -27,14 +35,24 @@ func (h Handler) GetByID(w http.ResponseWriter, r *http.Request) {
 	associate, err := h.service.GetByID(id)
 	if err != nil {
 		slog.Error("erro ao buscar associado", "error", err)
-		http.Error(w, "erro interno, falha ao buscar associado", http.StatusInternalServerError)
+
+		w.WriteHeader(http.StatusInternalServerError)
+		json.NewEncoder(w).Encode(map[string]string{
+			"error": "erro ao buscar associado",
+		})
 		return
 	}
+
+	w.WriteHeader(http.StatusOK)
 
 	err = json.NewEncoder(w).Encode(associate)
 	if err != nil {
 		slog.Error("erro ao converter para formato JSON", "error", err)
-		http.Error(w, "erro interno", http.StatusInternalServerError)
+
+		w.WriteHeader(http.StatusInternalServerError)
+		json.NewEncoder(w).Encode(map[string]string{
+			"error": "erro ao gerar resposta",
+		})
 		return
 	}
 
