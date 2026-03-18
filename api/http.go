@@ -5,8 +5,8 @@ import (
 	"net/http"
 )
 
-func StartApp(associateHandler, listAssociatesHandler, getAssociateByIDHandler, updateAssociateHandler,
-	getAssociateByCPF Associate, adminHandler, loginHandler Admin) {
+func StartApp(associateHandler, listAssociatesHandler, getAssociateByIDHandler, updateAssociateHandler Associate,
+	adminHandler, loginHandler Admin) {
 	mux := http.NewServeMux()
 
 	// Rotas Associado
@@ -18,9 +18,6 @@ func StartApp(associateHandler, listAssociatesHandler, getAssociateByIDHandler, 
 
 	mux.Handle("GET /associate/id/{id}", middlewares.Logger(middlewares.Authenticate(
 		http.HandlerFunc(getAssociateByIDHandler.GetByID))))
-
-	mux.Handle("GET /associate/cpf/{cpf}", middlewares.Logger(middlewares.Authenticate(
-		http.HandlerFunc(getAssociateByCPF.GetAssociateByCPF))))
 
 	mux.Handle("PUT /associate/{id}", middlewares.Logger(middlewares.Authenticate(
 		http.HandlerFunc(updateAssociateHandler.UpdateAssociate))))
