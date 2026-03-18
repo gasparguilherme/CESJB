@@ -11,4 +11,5 @@ type Repository interface {
 	GetByID(id int) (*entities.Associate, error)
 	UpdateAssociate(input associate.UpdateAssociate) (int, error)
 	GetAssociateByCPF(cpf string) (*entities.Associate, error)
+	FindByName(name string) ([]entities.Associate, error)
 }
