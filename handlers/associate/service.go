@@ -18,4 +18,6 @@ type Service interface {
 		address string, donationValue float64, paymentDate time.Time, status bool, position string) (int, error)
 
 	GetAssociateByCPF(cpf string) (entities.Associate, error)
+
+	FindByName(name string) ([]entities.Associate, error)
 }
