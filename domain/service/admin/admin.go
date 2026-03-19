@@ -2,12 +2,21 @@ package admin
 
 import (
 	"cesjb/domain/entities"
+	"errors"
 	"fmt"
 
 	"golang.org/x/crypto/bcrypt"
 )
 
 func (s Service) CreateAdmin(name, email, password string) (*entities.Admin, error) {
+
+	exists, err := s.repository.ExistsAdmin()
+	if err != nil {
+		return nil, err
+	}
+	if exists {
+		return nil, errors.New("já existe um admin cadastrado")
+	}
 
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {

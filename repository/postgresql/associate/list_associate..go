@@ -45,7 +45,7 @@ func (r Repository) GetAssociates() ([]entities.Associate, error) {
 			&a.AssociationDate,
 			&a.Address,
 			&a.DonationValue,
-			&a.PaymentDate,
+			&a.LastPaymentDate,
 			&a.Status,
 			&a.Position,
 		)

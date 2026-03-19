@@ -24,7 +24,7 @@ func (r Repository) SaveAssociate(data entities.Associate) (int, error) {
 		data.AssociationDate,
 		data.Address,
 		data.DonationValue,
-		data.PaymentDate,
+		data.LastPaymentDate,
 		data.Status,
 		data.Position,
 	).Scan(&id)

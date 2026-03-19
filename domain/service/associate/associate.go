@@ -6,7 +6,7 @@ import (
 )
 
 func (s Service) CreateAssociate(name, cpf, email, tel string, date_of_birth, association_date time.Time,
-	address string, donation_value float64, payment_date time.Time, status bool,
+	address string, donation_value float64, last_payment_date time.Time, status bool,
 	position string) (*entities.Associate, error) {
 
 	newAssociated := entities.Associate{
@@ -18,7 +18,7 @@ func (s Service) CreateAssociate(name, cpf, email, tel string, date_of_birth, as
 		AssociationDate: association_date,
 		Address:         address,
 		DonationValue:   donation_value,
-		PaymentDate:     payment_date,
+		LastPaymentDate: last_payment_date,
 		Status:          status,
 		Position:        position,
 	}

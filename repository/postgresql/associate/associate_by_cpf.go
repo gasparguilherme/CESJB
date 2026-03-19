@@ -29,7 +29,7 @@ func (r Repository) GetAssociateByCPF(cpf string) (*entities.Associate, error) {
 		&associate.AssociationDate,
 		&associate.Address,
 		&associate.DonationValue,
-		&associate.PaymentDate,
+		&associate.LastPaymentDate,
 		&associate.Status,
 		&associate.Position,
 	)

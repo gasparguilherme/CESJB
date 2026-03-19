@@ -25,7 +25,7 @@ func (h Handler) CreateAssociate(w http.ResponseWriter, r *http.Request) {
 	// VALIDAÇÃO: verifique o erro aqui!
 	err = validate.ValidateAssociate(associatedRequest.Name, associatedRequest.CPF, associatedRequest.Email,
 		associatedRequest.Tel, associatedRequest.DateOfBirth, associatedRequest.AssociationDate, associatedRequest.Address,
-		associatedRequest.DonationValue, associatedRequest.PaymentDate, associatedRequest.Position)
+		associatedRequest.DonationValue, associatedRequest.LastPaymentDate, associatedRequest.Position)
 
 	if err != nil {
 		slog.Error("erro de validação", "error", err)
@@ -39,7 +39,7 @@ func (h Handler) CreateAssociate(w http.ResponseWriter, r *http.Request) {
 
 	create, err := h.service.CreateAssociate(associatedRequest.Name, associatedRequest.CPF, associatedRequest.Email,
 		associatedRequest.Tel, associatedRequest.DateOfBirth, associatedRequest.AssociationDate, associatedRequest.Address,
-		associatedRequest.DonationValue, associatedRequest.PaymentDate, associatedRequest.Status, associatedRequest.Position)
+		associatedRequest.DonationValue, associatedRequest.LastPaymentDate, associatedRequest.Status, associatedRequest.Position)
 	if err != nil {
 		slog.Error("erro ao criar usuario", "error", err)
 
