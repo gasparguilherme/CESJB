@@ -34,12 +34,11 @@ func main() {
 	listHandler := api.InitAssociate(conn)
 	getByIDHandler := api.InitAssociate(conn)
 	updateAssociateHandler := api.InitAssociate(conn)
-	getAssociateByCPF := api.InitAssociate(conn)
 
 	//Admin
 	adminHandler := api.InitAdmin(conn)
 	loginHandler := api.InitAdmin(conn)
-	api.StartApp(associateHandler, listHandler, getByIDHandler, updateAssociateHandler, getAssociateByCPF,
+	api.StartApp(associateHandler, listHandler, getByIDHandler, updateAssociateHandler,
 		adminHandler, loginHandler)
 
 }
