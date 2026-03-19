@@ -7,7 +7,6 @@ type Associate interface {
 	GetAssociates(w http.ResponseWriter, r *http.Request)
 	GetByID(w http.ResponseWriter, r *http.Request)
 	UpdateAssociate(w http.ResponseWriter, r *http.Request)
-	GetAssociateByCPF(w http.ResponseWriter, r *http.Request)
 }
 
 type Admin interface {

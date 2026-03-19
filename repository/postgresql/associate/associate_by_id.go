@@ -28,7 +28,7 @@ func (r Repository) GetByID(id int) (*entities.Associate, error) {
 		&associate.AssociationDate,
 		&associate.Address,
 		&associate.DonationValue,
-		&associate.PaymentDate,
+		&associate.LastPaymentDate,
 		&associate.Status,
 		&associate.Position,
 	)
