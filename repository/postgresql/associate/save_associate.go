@@ -9,8 +9,8 @@ import (
 func (r Repository) SaveAssociate(data entities.Associate) (int, error) {
 	query := `
     INSERT INTO associates(name, cpf, email, tel, date_of_birth, association_date, address,
-    donation_value, payment_date, status, position)
-    VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+    status, position)
+    VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)
     RETURNING id;
     `
 
@@ -23,8 +23,6 @@ func (r Repository) SaveAssociate(data entities.Associate) (int, error) {
 		data.DateOfBirth,
 		data.AssociationDate,
 		data.Address,
-		data.DonationValue,
-		data.LastPaymentDate,
 		data.Status,
 		data.Position,
 	).Scan(&id)

@@ -7,18 +7,8 @@ import (
 	"time"
 )
 
-func ValidateAssociate(
-	name string,
-	cpf string,
-	email string,
-	tel string,
-	dateOfBirth time.Time,
-	associationDate time.Time,
-	address string,
-	donationValue float64,
-	paymentDate time.Time,
-	position string,
-) error {
+func ValidateAssociate(name string, cpf string, email string, tel string, dateOfBirth time.Time,
+	associationDate time.Time, address string, position string) error {
 
 	// valida campos string vazios
 	switch "" {
@@ -85,14 +75,6 @@ func ValidateAssociate(
 	// valida datas obrigatórias
 	if dateOfBirth.IsZero() {
 		return errors.New("a data de nascimento não pode estar vazia")
-	}
-
-	if associationDate.IsZero() {
-		return errors.New("a data de associação não pode estar vazia")
-	}
-
-	if paymentDate.IsZero() {
-		return errors.New("a data de pagamento não pode estar vazia")
 	}
 
 	return nil

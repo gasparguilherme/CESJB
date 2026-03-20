@@ -17,8 +17,6 @@ func (r Repository) GetAssociates() ([]entities.Associate, error) {
             date_of_birth,
             association_date,
             address,
-            donation_value,
-            payment_date,
             status,
 			position
         FROM associates
@@ -44,8 +42,6 @@ func (r Repository) GetAssociates() ([]entities.Associate, error) {
 			&a.DateOfBirth,
 			&a.AssociationDate,
 			&a.Address,
-			&a.DonationValue,
-			&a.LastPaymentDate,
 			&a.Status,
 			&a.Position,
 		)

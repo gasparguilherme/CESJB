@@ -5,8 +5,8 @@ import (
 	"net/http"
 )
 
-func StartApp(associateHandler, listAssociatesHandler, getAssociateByIDHandler, updateAssociateHandler Associate,
-	adminHandler, loginHandler Admin) {
+func StartApp(associateHandler, listAssociatesHandler, getAssociateByIDHandler, updateAssociateHandler,
+	paymentAssociateHandler Associate, adminHandler, loginHandler Admin) {
 	mux := http.NewServeMux()
 
 	// Rotas Associado
@@ -26,6 +26,10 @@ func StartApp(associateHandler, listAssociatesHandler, getAssociateByIDHandler, 
 	mux.Handle("POST /admin", http.HandlerFunc(adminHandler.CreateAdmin))
 
 	mux.Handle("POST /login", http.HandlerFunc(loginHandler.Login))
+
+	//Rotas Payment
+	mux.Handle("POST /payment", middlewares.Logger(middlewares.Authenticate(
+		http.HandlerFunc(paymentAssociateHandler.CreatePayment))))
 
 	http.ListenAndServe(":8088", mux)
 

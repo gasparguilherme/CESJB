@@ -62,7 +62,7 @@ func (h Handler) UpdateAssociate(w http.ResponseWriter, r *http.Request) {
 
 	// 7. Chamar service
 	updatedID, err := h.service.UpdateAssociate(input.ID, input.Name, input.Email, input.Tel, input.DateOfBirth,
-		input.AssociationDate, input.Address, input.DonationValue, input.PaymentDate, input.Status, input.Position)
+		input.AssociationDate, input.Address, input.Status, input.Position)
 	if err != nil {
 		slog.Error("erro ao atualizar associado", "error", err)
 

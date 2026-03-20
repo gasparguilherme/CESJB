@@ -31,14 +31,5 @@ func ValidateDTO(input associate.UpdateAssociate) error {
 		return errors.New("a data de associação não pode estar vazia")
 	}
 
-	if input.PaymentDate.IsZero() {
-		return errors.New("a data de pagamento não pode estar vazia")
-	}
-
-	// valida valor da doação
-	if input.DonationValue < 0 {
-		return errors.New("o valor da doação não pode ser negativo")
-	}
-
 	return nil
 }
