@@ -8,7 +8,7 @@ import (
 )
 
 func (s Service) UpdateAssociate(id int, name, email, tel string, dateOfBirth, associationDate time.Time,
-	address string, donationValue float64, paymentDate time.Time, status bool, position string) (int, error) {
+	address string, status bool, position string) (int, error) {
 	associate := associate.UpdateAssociate{
 		ID:              id,
 		Name:            name,
@@ -17,8 +17,6 @@ func (s Service) UpdateAssociate(id int, name, email, tel string, dateOfBirth, a
 		DateOfBirth:     dateOfBirth,
 		AssociationDate: associationDate,
 		Address:         address,
-		DonationValue:   donationValue,
-		PaymentDate:     paymentDate,
 		Status:          status,
 		Position:        position,
 	}

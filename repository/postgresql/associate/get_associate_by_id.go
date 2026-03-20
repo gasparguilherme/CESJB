@@ -9,7 +9,7 @@ import (
 func (r Repository) GetByID(id int) (*entities.Associate, error) {
 	query := `
         SELECT id, name, cpf, email, tel, date_of_birth, association_date,
-               address, donation_value, payment_date, status, position
+               address, status, position
         FROM associates 
         WHERE id = $1;
     `
@@ -27,8 +27,6 @@ func (r Repository) GetByID(id int) (*entities.Associate, error) {
 		&associate.DateOfBirth,
 		&associate.AssociationDate,
 		&associate.Address,
-		&associate.DonationValue,
-		&associate.LastPaymentDate,
 		&associate.Status,
 		&associate.Position,
 	)

@@ -12,4 +12,5 @@ type Repository interface {
 	UpdateAssociate(input associate.UpdateAssociate) (int, error)
 	GetAssociateByCPF(cpf string) (*entities.Associate, error)
 	FindByName(name string) ([]entities.Associate, error)
+	SavePayment(payment entities.Payment) (entities.Payment, error)
 }

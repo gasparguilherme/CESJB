@@ -16,11 +16,9 @@ func (r Repository) UpdateAssociate(input associate.UpdateAssociate) (int, error
             date_of_birth = $4,
             association_date = $5,
             address = $6,
-            donation_value = $7,
-            payment_date = $8,
-            status = $9 ,
-			position = $10
-        WHERE id = $11  
+            status = $7 ,
+			position = $8
+        WHERE id = $9  
 		RETURNING id;
  
     `
@@ -34,8 +32,6 @@ func (r Repository) UpdateAssociate(input associate.UpdateAssociate) (int, error
 		input.DateOfBirth,
 		input.AssociationDate,
 		input.Address,
-		input.DonationValue,
-		input.PaymentDate,
 		input.Status,
 		input.Position,
 		input.ID,
