@@ -1,14 +1,14 @@
 package validate
 
 import (
+	"cesjb/types_"
 	"errors"
 	"strconv"
 	"strings"
-	"time"
 )
 
-func ValidateAssociate(name string, cpf string, email string, tel string, dateOfBirth time.Time,
-	associationDate time.Time, address string, position string) error {
+func ValidateAssociate(name string, cpf string, email string, tel string,
+	dateOfBirth, associationDate types_.DateOnly, address string, position string) error {
 
 	// valida campos string vazios
 	switch "" {

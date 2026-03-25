@@ -2,10 +2,10 @@ package associate
 
 import (
 	"cesjb/domain/entities"
-	"time"
+	"cesjb/types_"
 )
 
-func (s Service) CreatePayment(associateID int, date time.Time, value float64,
+func (s Service) CreatePayment(associateID int, date types_.DateOnly, value float64,
 	status bool) (entities.Payment, error) {
 
 	newPayment := entities.Payment{

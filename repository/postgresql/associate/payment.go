@@ -4,6 +4,7 @@ import (
 	"cesjb/domain/entities"
 	"context"
 	"fmt"
+	"time"
 )
 
 func (r Repository) SavePayment(payment entities.Payment) (entities.Payment, error) {
@@ -14,7 +15,7 @@ func (r Repository) SavePayment(payment entities.Payment) (entities.Payment, err
     `
 	err := r.connectionInstance.QueryRow(context.TODO(), query,
 		payment.AssociateID,
-		payment.Date,
+		time.Time(payment.Date),
 		payment.Value,
 		payment.Status,
 	).Scan(&payment.ID)
