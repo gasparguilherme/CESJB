@@ -52,6 +52,6 @@ func (h Handler) Login(w http.ResponseWriter, r *http.Request) {
 
 	json.NewEncoder(w).Encode(map[string]any{
 		"admin": userLogged,
-		"token": token,
+		"oken":  token,
 	})
 }

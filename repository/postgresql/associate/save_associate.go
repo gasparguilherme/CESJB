@@ -4,6 +4,7 @@ import (
 	"cesjb/domain/entities"
 	"context"
 	"fmt"
+	"time"
 )
 
 func (r Repository) SaveAssociate(data entities.Associate) (int, error) {
@@ -20,8 +21,8 @@ func (r Repository) SaveAssociate(data entities.Associate) (int, error) {
 		data.CPF,
 		data.Email,
 		data.Tel,
-		data.DateOfBirth,
-		data.AssociationDate,
+		time.Time(data.DateOfBirth),
+		time.Time(data.AssociationDate),
 		data.Address,
 		data.Status,
 		data.Position,

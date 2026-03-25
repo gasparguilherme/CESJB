@@ -2,11 +2,12 @@ package associate
 
 import (
 	"cesjb/domain/entities"
+	"cesjb/types_"
 	"time"
 )
 
 type Service interface {
-	CreateAssociate(name, cpf, email, tel string, date_of_birth, association_date time.Time,
+	CreateAssociate(name, cpf, email, tel string, date_of_birth, association_date types_.DateOnly,
 		address string, status bool, position string) (*entities.Associate, error)
 
 	ListAssociates() ([]entities.Associate, error)
@@ -20,5 +21,6 @@ type Service interface {
 
 	FindByName(name string) ([]entities.Associate, error)
 
-	CreatePayment(associateID int, date time.Time, value float64, status bool) (entities.Payment, error)
+	CreatePayment(associateID int, date types_.DateOnly, value float64,
+		status bool) (entities.Payment, error)
 }
