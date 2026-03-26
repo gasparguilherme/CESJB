@@ -33,7 +33,7 @@ func (h Handler) CreatePayment(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	value, err := h.service.CreatePayment(payment.AssociateID, payment.Competence, payment.Date, payment.Value,
+	value, err := h.service.CreatePayment(payment.AssociateID, payment.Competence, payment.PaymentDate, payment.Value,
 		payment.Status)
 	if err != nil {
 		slog.Error("Nao foi possivel registrar pagamento", "erro", err)

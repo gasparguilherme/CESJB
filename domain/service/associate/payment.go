@@ -5,18 +5,18 @@ import (
 	"cesjb/types_"
 )
 
-func (s Service) CreatePayment(associateID int, competence, date types_.DateOnly, value float64,
+func (s Service) CreatePayment(associateID int, competence, paymentDate types_.DateOnly, value float64,
 	status bool) (entities.Payment, error) {
 
 	newPayment := entities.Payment{
 		AssociateID: associateID,
-		Date:        date,
+		PaymentDate: paymentDate,
 		Value:       value,
 		Status:      status,
 		Competence:  competence,
 	}
 
-	payment, err := s.repository.SavePayment(newPayment) // PASSANDO VALOR
+	payment, err := s.repository.SavePayment(newPayment)
 	if err != nil {
 		return entities.Payment{}, err
 	}
