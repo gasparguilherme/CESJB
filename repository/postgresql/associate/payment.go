@@ -1,9 +1,9 @@
 package associate
 
 import (
+	"cesjb/domain"
 	"cesjb/domain/entities"
 	"context"
-	"fmt"
 	"strings"
 	"time"
 )
@@ -36,11 +36,11 @@ func (r Repository) SavePayment(payment entities.Payment) (entities.Payment, err
 
 		// erro de pagamento duplicado
 		if strings.Contains(err.Error(), "unique_associate_competence") {
-			return entities.Payment{}, fmt.Errorf("já existe um pagamento registrado para este associado neste mês")
+			return entities.Payment{}, domain.ErrPaymentAlreadyExists
 		}
 
 		// erro genérico
-		return entities.Payment{}, fmt.Errorf("erro ao registrar pagamento")
+		return entities.Payment{}, domain.ErrCreatePayment
 	}
 
 	return payment, nil
