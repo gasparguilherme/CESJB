@@ -27,7 +27,7 @@ func (r Repository) SavePayment(payment entities.Payment) (entities.Payment, err
 		query,
 		payment.AssociateID,
 		time.Time(payment.Competence),
-		time.Time(payment.Date),
+		time.Time(payment.PaymentDate),
 		payment.Value,
 		payment.Status,
 	).Scan(&payment.ID)
