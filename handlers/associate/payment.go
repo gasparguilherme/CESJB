@@ -1,9 +1,11 @@
 package associate
 
 import (
+	"cesjb/domain"
 	"cesjb/domain/entities"
 	"cesjb/handlers/associate/validate"
 	"encoding/json"
+	"errors"
 	"log/slog"
 	"net/http"
 )
@@ -13,19 +15,15 @@ func (h Handler) CreatePayment(w http.ResponseWriter, r *http.Request) {
 
 	err := json.NewDecoder(r.Body).Decode(&payment)
 	if err != nil {
-		slog.Error("JSON invalido", "erro", err)
-
-		w.WriteHeader(http.StatusInternalServerError)
+		w.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(w).Encode(map[string]string{
-			"error": "Ocorreu um erro inesperado",
+			"error": "JSON inválido",
 		})
 		return
 	}
 
 	err = validate.ValidatePayment(&payment)
 	if err != nil {
-		slog.Error("Erro ao registrar pagamento", "error", err)
-
 		w.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(w).Encode(map[string]string{
 			"error": err.Error(),
@@ -33,18 +31,32 @@ func (h Handler) CreatePayment(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	value, err := h.service.CreatePayment(payment.AssociateID, payment.Competence, payment.PaymentDate, payment.Value,
-		payment.Status)
+	value, err := h.service.CreatePayment(
+		payment.AssociateID,
+		payment.Competence,
+		payment.PaymentDate,
+		payment.Value,
+		payment.Status,
+	)
+
 	if err != nil {
-		slog.Error("Nao foi possivel registrar pagamento", "erro", err)
-		w.WriteHeader(http.StatusBadRequest)
+
+		if errors.Is(err, domain.ErrPaymentAlreadyExists) {
+			slog.Error("Erro ao registrar pagamento", "error", err)
+			w.WriteHeader(http.StatusConflict)
+			json.NewEncoder(w).Encode(map[string]string{
+				"error": err.Error(),
+			})
+			return
+		}
+
+		w.WriteHeader(http.StatusInternalServerError)
 		json.NewEncoder(w).Encode(map[string]string{
-			"error": "Nao foi possivel registrar o pagamento",
+			"error": "Erro interno ao registrar pagamento",
 		})
 		return
 	}
 
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(value)
-
 }
