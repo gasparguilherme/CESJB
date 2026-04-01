@@ -7,10 +7,13 @@ type Associate interface {
 	GetAssociates(w http.ResponseWriter, r *http.Request)
 	GetByID(w http.ResponseWriter, r *http.Request)
 	UpdateAssociate(w http.ResponseWriter, r *http.Request)
-	CreatePayment(w http.ResponseWriter, r *http.Request)
 }
 
 type Admin interface {
 	CreateAdmin(w http.ResponseWriter, r *http.Request)
 	Login(w http.ResponseWriter, r *http.Request)
+}
+
+type Payment interface {
+	CreatePayment(w http.ResponseWriter, r *http.Request)
 }

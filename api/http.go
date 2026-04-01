@@ -5,8 +5,8 @@ import (
 	"net/http"
 )
 
-func StartApp(associateHandler, listAssociatesHandler, getAssociateByIDHandler, updateAssociateHandler,
-	paymentAssociateHandler Associate, adminHandler, loginHandler Admin) {
+func StartApp(associateHandler, listAssociatesHandler, getAssociateByIDHandler, updateAssociateHandler Associate,
+	adminHandler, loginHandler Admin, paymentAssociateHandler Payment) {
 	mux := http.NewServeMux()
 
 	// Rotas Associado

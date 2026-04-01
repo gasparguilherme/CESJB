@@ -34,14 +34,16 @@ func main() {
 	listHandler := api.InitAssociate(conn)
 	getByIDHandler := api.InitAssociate(conn)
 	updateAssociateHandler := api.InitAssociate(conn)
-	paymentAssociateHandler := api.InitAssociate(conn)
 
 	//Admin
 	adminHandler := api.InitAdmin(conn)
 	loginHandler := api.InitAdmin(conn)
 
+	//Payment
+	paymentAssociateHandler := api.InitPayment(conn)
+
 	//start api
 	api.StartApp(associateHandler, listHandler, getByIDHandler, updateAssociateHandler,
-		paymentAssociateHandler, adminHandler, loginHandler)
+		adminHandler, loginHandler, paymentAssociateHandler)
 
 }
