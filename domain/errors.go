@@ -7,4 +7,5 @@ var (
 	ErrAssociateNotFound    = errors.New("associado não encontrado")
 	ErrInvalidValue         = errors.New("valor de pagamento inválido")
 	ErrCreatePayment        = errors.New("erro ao registrar pagamento")
+	ErrListAssociates       = errors.New("erro ao listar associados ativos")
 )

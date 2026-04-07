@@ -20,7 +20,4 @@ type Service interface {
 	GetAssociateByCPF(cpf string) (entities.Associate, error)
 
 	FindByName(name string) ([]entities.Associate, error)
-
-	CreatePayment(associateID int, competence, paymentDate types_.DateOnly, value float64,
-		status bool) (entities.Payment, error)
 }
