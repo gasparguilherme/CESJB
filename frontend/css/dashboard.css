@@ -262,3 +262,10 @@ tbody tr:hover {
     background-color: #fee2e2;
     color: #991b1b;
 }
+.payment-hidden {
+    display: inline-block;
+    width: 120px;
+    height: 16px;
+    background-color: #1a6fd4;
+    border-radius: 4px;
+}

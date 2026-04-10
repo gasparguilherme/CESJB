@@ -114,15 +114,15 @@ function togglePayments() {
 
     paymentsVisible = !paymentsVisible
 
-    if (paymentsVisible) {
-        el.textContent = paymentsTotal !== null ? formatCurrency(paymentsTotal) : "—"
-        btn.textContent = "👁️"
-        btn.title = "Ocultar valor"
-    } else {
-        el.textContent = "••••••"
-        btn.textContent = "🙈"
-        btn.title = "Mostrar valor"
-    }
+ if (paymentsVisible) {
+    el.textContent = paymentsTotal !== null ? formatCurrency(paymentsTotal) : "—"
+    btn.textContent = "👁️"
+    btn.title = "Ocultar valor"
+} else {
+    el.innerHTML = "<span class='payment-hidden'></span>"
+    btn.textContent = "👁️"  // ← mesma coisa
+    btn.title = "Mostrar valor"
+}
 }
 
 // formata CPF: 00000000000 → 000.000.000-00
