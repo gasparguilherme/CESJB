@@ -31,6 +31,7 @@ func StartApp(associateHandler Associate, adminHandler Admin, paymentHandler Pay
 
 	// Rotas Admin
 	mux.Handle("POST /admin", http.HandlerFunc(adminHandler.CreateAdmin))
+
 	mux.Handle("POST /login", http.HandlerFunc(adminHandler.Login))
 
 	// Rotas Payment
@@ -38,7 +39,7 @@ func StartApp(associateHandler Associate, adminHandler Admin, paymentHandler Pay
 		http.HandlerFunc(paymentHandler.CreatePayment))))
 
 	slog.Info("servidor iniciado", "porta", config.APIPort)
-	if err := http.ListenAndServe(config.APIPort, mux); err != nil {
+	if err := http.ListenAndServe(config.APIPort, middlewares.CORS(mux)); err != nil {
 		slog.Error("erro ao iniciar o servidor", "error", err)
 	}
 
