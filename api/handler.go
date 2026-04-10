@@ -18,4 +18,5 @@ type Admin interface {
 
 type Payment interface {
 	CreatePayment(w http.ResponseWriter, r *http.Request)
+	GetMonthlyTotal(w http.ResponseWriter, r *http.Request)
 }
