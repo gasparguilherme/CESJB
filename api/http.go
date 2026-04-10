@@ -20,6 +20,12 @@ func StartApp(associateHandler Associate, adminHandler Admin, paymentHandler Pay
 	mux.Handle("GET /associate/id/{id}", middlewares.Logger(middlewares.Authenticate(
 		http.HandlerFunc(associateHandler.GetByID))))
 
+	mux.Handle("GET /associate/cpf/{cpf}", middlewares.Logger(middlewares.Authenticate(
+		http.HandlerFunc(associateHandler.GetByCPF))))
+
+	mux.Handle("GET /associate/name/{name}", middlewares.Logger(middlewares.Authenticate(
+		http.HandlerFunc(associateHandler.GetByName))))
+
 	mux.Handle("PUT /associate/{id}", middlewares.Logger(middlewares.Authenticate(
 		http.HandlerFunc(associateHandler.UpdateAssociate))))
 
