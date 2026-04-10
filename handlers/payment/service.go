@@ -8,4 +8,5 @@ import (
 type Service interface {
 	CreatePayment(associateID int, competence, paymentDate types_.DateOnly, value float64,
 		status bool) (entities.Payment, error)
+	GetMonthlyTotal(competence types_.DateOnly) (float64, error)
 }
