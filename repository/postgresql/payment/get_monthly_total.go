@@ -11,7 +11,7 @@ func (r Repository) GetMonthlyTotal(competence types_.DateOnly) (float64, error)
 	query := `
 		SELECT COALESCE(SUM(value), 0)
 		FROM payments
-		WHERE DATE_TRUNC('month', competence) = DATE_TRUNC('month', $1)
+		WHERE DATE_TRUNC('month', competence::date) = DATE_TRUNC('month', $1::date)
 		AND status = true
 	`
 

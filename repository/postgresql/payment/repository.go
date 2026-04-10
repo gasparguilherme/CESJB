@@ -1,13 +1,13 @@
 package payment
 
-import "github.com/jackc/pgx/v5"
+import "github.com/jackc/pgx/v5/pgxpool"
 
 type Repository struct {
-	connectionInstance *pgx.Conn
+	connectionInstance *pgxpool.Pool
 }
 
-func NewPostgresRepository(conn *pgx.Conn) Repository {
+func NewPostgresRepository(pool *pgxpool.Pool) Repository {
 	return Repository{
-		connectionInstance: conn,
+		connectionInstance: pool,
 	}
 }

@@ -7,7 +7,7 @@ import (
 	"log/slog"
 	"os"
 
-	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 func main() {
@@ -15,23 +15,23 @@ func main() {
 
 	ctx := context.Background()
 
-	conn, err := pgx.Connect(ctx, config.StringConnectionBase)
+	pool, err := pgxpool.New(ctx, config.StringConnectionBase)
 	if err != nil {
-		slog.Error("Erro ao conectar no banco", "error", err.Error())
+		slog.Error("Erro ao criar pool de conexões", "error", err.Error())
 		os.Exit(1)
 	}
-	defer conn.Close(ctx)
+	defer pool.Close()
 
-	if err := conn.Ping(ctx); err != nil {
-		slog.Error("Error ao fazer ping no banco de dados", "error", err.Error())
+	if err := pool.Ping(ctx); err != nil {
+		slog.Error("Erro ao fazer ping no banco de dados", "error", err.Error())
 		os.Exit(1)
 	}
 
-	slog.Info("Conexão estabelcida com sucesso")
+	slog.Info("Conexão estabelecida com sucesso")
 
-	associateHandler := api.InitAssociate(conn)
-	adminHandler := api.InitAdmin(conn)
-	paymentHandler := api.InitPayment(conn)
+	associateHandler := api.InitAssociate(pool)
+	adminHandler := api.InitAdmin(pool)
+	paymentHandler := api.InitPayment(pool)
 
 	api.StartApp(associateHandler, adminHandler, paymentHandler)
 }
