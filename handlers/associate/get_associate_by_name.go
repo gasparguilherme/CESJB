@@ -6,12 +6,22 @@ import (
 	"net/http"
 )
 
-func (h Handler) GetAssociates(w http.ResponseWriter, r *http.Request) {
+func (h Handler) GetByName(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
-	associates, err := h.service.ListAssociates()
+	name := r.PathValue("name")
+
+	if name == "" {
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(map[string]string{
+			"error": "nome não informado",
+		})
+		return
+	}
+
+	associates, err := h.service.FindByName(name)
 	if err != nil {
-		slog.Error("erro ao buscar associados", "error", err)
+		slog.Error("erro ao buscar por nome", "name", name, "error", err)
 		w.WriteHeader(http.StatusInternalServerError)
 		json.NewEncoder(w).Encode(map[string]string{
 			"error": "erro ao buscar associados",
