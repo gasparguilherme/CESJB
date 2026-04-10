@@ -1,12 +1,13 @@
 package api
 
 import (
+	"cesjb/config"
 	"cesjb/middlewares"
+	"log/slog"
 	"net/http"
 )
 
-func StartApp(associateHandler, listAssociatesHandler, getAssociateByIDHandler, updateAssociateHandler Associate,
-	adminHandler, loginHandler Admin, paymentAssociateHandler Payment) {
+func StartApp(associateHandler Associate, adminHandler Admin, paymentHandler Payment) {
 	mux := http.NewServeMux()
 
 	// Rotas Associado
@@ -14,23 +15,25 @@ func StartApp(associateHandler, listAssociatesHandler, getAssociateByIDHandler, 
 		http.HandlerFunc(associateHandler.CreateAssociate))))
 
 	mux.Handle("GET /associates", middlewares.Logger(middlewares.Authenticate(
-		http.HandlerFunc(listAssociatesHandler.GetAssociates))))
+		http.HandlerFunc(associateHandler.GetAssociates))))
 
 	mux.Handle("GET /associate/id/{id}", middlewares.Logger(middlewares.Authenticate(
-		http.HandlerFunc(getAssociateByIDHandler.GetByID))))
+		http.HandlerFunc(associateHandler.GetByID))))
 
 	mux.Handle("PUT /associate/{id}", middlewares.Logger(middlewares.Authenticate(
-		http.HandlerFunc(updateAssociateHandler.UpdateAssociate))))
+		http.HandlerFunc(associateHandler.UpdateAssociate))))
 
-	//Rotas Admin
+	// Rotas Admin
 	mux.Handle("POST /admin", http.HandlerFunc(adminHandler.CreateAdmin))
+	mux.Handle("POST /login", http.HandlerFunc(adminHandler.Login))
 
-	mux.Handle("POST /login", http.HandlerFunc(loginHandler.Login))
-
-	//Rotas Payment
+	// Rotas Payment
 	mux.Handle("POST /payment", middlewares.Logger(middlewares.Authenticate(
-		http.HandlerFunc(paymentAssociateHandler.CreatePayment))))
+		http.HandlerFunc(paymentHandler.CreatePayment))))
 
-	http.ListenAndServe(":8088", mux)
+	slog.Info("servidor iniciado", "porta", config.APIPort)
+	if err := http.ListenAndServe(config.APIPort, mux); err != nil {
+		slog.Error("erro ao iniciar o servidor", "error", err)
+	}
 
 }

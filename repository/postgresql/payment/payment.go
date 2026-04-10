@@ -4,8 +4,10 @@ import (
 	"cesjb/domain"
 	"cesjb/domain/entities"
 	"context"
-	"strings"
+	"errors"
 	"time"
+
+	"github.com/jackc/pgx/v5/pgconn"
 )
 
 func (r Repository) SavePayment(payment entities.Payment) (entities.Payment, error) {
@@ -33,13 +35,11 @@ func (r Repository) SavePayment(payment entities.Payment) (entities.Payment, err
 	).Scan(&payment.ID)
 
 	if err != nil {
-
-		// erro de pagamento duplicado
-		if strings.Contains(err.Error(), "unique_associate_competence") {
+		var pgErr *pgconn.PgError
+		if errors.As(err, &pgErr) && pgErr.Code == "23505" {
 			return entities.Payment{}, domain.ErrPaymentAlreadyExists
 		}
 
-		// erro genérico
 		return entities.Payment{}, domain.ErrCreatePayment
 	}
 
