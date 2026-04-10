@@ -3,13 +3,13 @@ package api
 import (
 	service "cesjb/domain/service/associate"
 	handler "cesjb/handlers/associate"
-	associated "cesjb/repository/postgresql/associate"
+	associate "cesjb/repository/postgresql/associate"
 
-	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
-func InitAssociate(conn *pgx.Conn) handler.Handler {
-	r := associated.NewPostgresRepository(conn)
+func InitAssociate(pool *pgxpool.Pool) handler.Handler {
+	r := associate.NewPostgresRepository(pool)
 	s := service.NewService(r)
 	h := handler.NewHandler(s)
 	return h
