@@ -41,7 +41,7 @@ async function login() {
         localStorage.setItem("admin", JSON.stringify(data.admin))
 
         // redireciona para o dashboard
-        window.location.href = "dashboard.html"
+        window.location.href = "pages/dashboard.html"
 
     } catch (error) {
         // erro de conexão — API fora do ar ou CORS
