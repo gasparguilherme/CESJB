@@ -20,6 +20,7 @@ func (r Repository) GetAssociates() ([]entities.Associate, error) {
             status,
 			position
         FROM associates
+		WHERE status = true
         ORDER BY name ASC;
     `
 
