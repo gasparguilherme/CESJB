@@ -49,9 +49,10 @@ func (h Handler) Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
-
-	json.NewEncoder(w).Encode(map[string]any{
+	if err = json.NewEncoder(w).Encode(map[string]any{
 		"admin": userLogged,
-		"oken":  token,
-	})
+		"token": token,
+	}); err != nil {
+		slog.Error("erro ao converter para formato JSON", "error", err)
+	}
 }

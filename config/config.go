@@ -11,22 +11,22 @@ import (
 
 var (
 	StringConnectionBase = ""
-	APIPort              = 0
+	APIPort              = ""
 
-	//chave que vai ser usada para assinar o token
+	// chave que vai ser usada para assinar o token
 	SecretKey []byte
 )
 
 func Load() {
-	var err error
-	if err = godotenv.Load(); err != nil {
+	if err := godotenv.Load(); err != nil {
 		log.Fatal(err)
 	}
 
-	APIPort, err = strconv.Atoi(os.Getenv("API_PORT"))
+	port, err := strconv.Atoi(os.Getenv("API_PORT"))
 	if err != nil {
-		APIPort = 8000
+		port = 8088
 	}
+	APIPort = fmt.Sprintf(":%d", port)
 
 	StringConnectionBase = fmt.Sprintf(
 		"host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
@@ -38,5 +38,4 @@ func Load() {
 	)
 
 	SecretKey = []byte(os.Getenv("SECRET_KEY"))
-
 }

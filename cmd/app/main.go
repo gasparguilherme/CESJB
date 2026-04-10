@@ -29,21 +29,9 @@ func main() {
 
 	slog.Info("Conexão estabelcida com sucesso")
 
-	//Associado
 	associateHandler := api.InitAssociate(conn)
-	listHandler := api.InitAssociate(conn)
-	getByIDHandler := api.InitAssociate(conn)
-	updateAssociateHandler := api.InitAssociate(conn)
-
-	//Admin
 	adminHandler := api.InitAdmin(conn)
-	loginHandler := api.InitAdmin(conn)
+	paymentHandler := api.InitPayment(conn)
 
-	//Payment
-	paymentAssociateHandler := api.InitPayment(conn)
-
-	//start api
-	api.StartApp(associateHandler, listHandler, getByIDHandler, updateAssociateHandler,
-		adminHandler, loginHandler, paymentAssociateHandler)
-
+	api.StartApp(associateHandler, adminHandler, paymentHandler)
 }

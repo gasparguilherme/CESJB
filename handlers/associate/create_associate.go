@@ -49,16 +49,11 @@ func (h Handler) CreateAssociate(w http.ResponseWriter, r *http.Request) {
 		})
 		return
 	}
+
+	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 
-	err = json.NewEncoder(w).Encode(create)
-	if err != nil {
+	if err = json.NewEncoder(w).Encode(create); err != nil {
 		slog.Error("erro ao converter para formato JSON", "error", err)
-
-		w.WriteHeader(http.StatusInternalServerError)
-		json.NewEncoder(w).Encode(map[string]string{
-			"error": "erro ao gerar resposta",
-		})
-		return
 	}
 }

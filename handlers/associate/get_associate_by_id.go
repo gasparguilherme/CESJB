@@ -44,16 +44,7 @@ func (h Handler) GetByID(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
-
-	err = json.NewEncoder(w).Encode(associate)
-	if err != nil {
+	if err = json.NewEncoder(w).Encode(associate); err != nil {
 		slog.Error("erro ao converter para formato JSON", "error", err)
-
-		w.WriteHeader(http.StatusInternalServerError)
-		json.NewEncoder(w).Encode(map[string]string{
-			"error": "erro ao gerar resposta",
-		})
-		return
 	}
-
 }
