@@ -1,5 +1,9 @@
 const API_URL = "http://localhost:8088"
 
+// guarda o valor real para mostrar/ocultar
+let paymentsTotal = null
+let paymentsVisible = true
+
 // verifica se o admin está autenticado, senão redireciona pro login
 function checkAuth() {
     const token = localStorage.getItem("token")
@@ -36,10 +40,8 @@ async function loadAssociates() {
 
         const associates = await response.json()
 
-        // preenche o card de total
         document.getElementById("totalAssociates").textContent = associates.length
 
-        // preenche a tabela
         const tbody = document.getElementById("associatesTable")
 
         if (associates.length === 0) {
@@ -78,7 +80,6 @@ async function loadAssociates() {
 async function loadMonthlyTotal() {
     const token = checkAuth()
 
-    // pega o mês atual no formato yyyy-mm-dd
     const today = new Date()
     const competence = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-01`
 
@@ -97,11 +98,30 @@ async function loadMonthlyTotal() {
 
         const data = await response.json()
 
-        // formata o valor em reais
-        document.getElementById("totalPayments").textContent = formatCurrency(data.total)
+        // salva o valor para usar no toggle
+        paymentsTotal = data.total
+        document.getElementById("totalPayments").textContent = formatCurrency(paymentsTotal)
 
     } catch (error) {
         document.getElementById("totalPayments").textContent = "—"
+    }
+}
+
+// alterna visibilidade do valor de pagamentos
+function togglePayments() {
+    const el = document.getElementById("totalPayments")
+    const btn = document.getElementById("btnToggle")
+
+    paymentsVisible = !paymentsVisible
+
+    if (paymentsVisible) {
+        el.textContent = paymentsTotal !== null ? formatCurrency(paymentsTotal) : "—"
+        btn.textContent = "👁️"
+        btn.title = "Ocultar valor"
+    } else {
+        el.textContent = "••••••"
+        btn.textContent = "🙈"
+        btn.title = "Mostrar valor"
     }
 }
 
