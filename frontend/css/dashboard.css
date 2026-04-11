@@ -244,6 +244,24 @@ tbody tr:hover {
     padding: 32px !important;
 }
 
+.table-footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 12px;
+}
+
+.btn-ver-todos {
+    font-size: 0.85rem;
+    color: #1a6fd4;
+    text-decoration: none;
+    font-weight: 500;
+    transition: opacity 0.2s;
+}
+
+.btn-ver-todos:hover {
+    opacity: 0.7;
+}
+
 /* Badge Status */
 .badge {
     display: inline-block;
@@ -262,6 +280,7 @@ tbody tr:hover {
     background-color: #fee2e2;
     color: #991b1b;
 }
+
 .payment-hidden {
     display: inline-block;
     width: 120px;

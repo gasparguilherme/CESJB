@@ -52,6 +52,8 @@ async function loadAssociates() {
             `
             return
         }
+        const preview = associates.slice(0, 10)
+
 
         tbody.innerHTML = associates.map(associate => `
             <tr>
