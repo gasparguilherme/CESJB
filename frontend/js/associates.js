@@ -146,13 +146,27 @@ async function saveAssociate() {
 
     errorEl.textContent = ""
 
+    const dateOfBirth = document.getElementById("inputDateOfBirth").value
+    const associationDate = document.getElementById("inputAssociationDate").value
+
+    // validação no frontend antes de enviar
+    if (!dateOfBirth) {
+        errorEl.textContent = "Data de nascimento é obrigatória."
+        return
+    }
+
+    if (!associationDate) {
+        errorEl.textContent = "Data de associação é obrigatória."
+        return
+    }
+
     const body = {
         name: document.getElementById("inputName").value.trim(),
         cpf: document.getElementById("inputCPF").value.replace(/\D/g, ""),
         email: document.getElementById("inputEmail").value.trim(),
         tel: document.getElementById("inputTel").value.replace(/\D/g, ""),
-        date_of_birth: document.getElementById("inputDateOfBirth").value,
-        association_date: document.getElementById("inputAssociationDate").value,
+        date_of_birth: dateOfBirth,
+        association_date: associationDate,
         position: document.getElementById("inputPosition").value.trim(),
         address: document.getElementById("inputAddress").value.trim(),
         status: document.getElementById("inputStatus").value === "true"
@@ -208,13 +222,21 @@ async function deactivateAssociate(id) {
         const associate = allAssociates.find(a => a.id === id)
         if (!associate) return
 
+        const body = {
+            ...associate,
+            cpf: associate.cpf.replace(/\D/g, ""),
+            date_of_birth: associate.date_of_birth?.split("T")[0],
+            association_date: associate.association_date?.split("T")[0],
+            status: false
+        }
+
         const response = await fetch(`${API_URL}/associate/${id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${token}`
             },
-            body: JSON.stringify({ ...associate, cpf: associate.cpf, status: false })
+            body: JSON.stringify(body)
         })
 
         if (!response.ok) {
