@@ -3,7 +3,6 @@ package associate
 import (
 	"cesjb/domain/entities"
 	"cesjb/types_"
-	"time"
 )
 
 type Service interface {
@@ -14,7 +13,7 @@ type Service interface {
 
 	GetByID(id int) (*entities.Associate, error)
 
-	UpdateAssociate(id int, name, email, tel string, dateOfBirth, associationDate time.Time,
+	UpdateAssociate(id int, name, email, tel string, dateOfBirth, associationDate types_.DateOnly,
 		address string, status bool, position string) (int, error)
 
 	GetAssociateByCPF(cpf string) (entities.Associate, error)
