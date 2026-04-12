@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CESJB — Associados</title>
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/associates.css">
+</head>
+<body>
+
+    <div class="layout">
+
+        <!-- Menu Lateral -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <h1>CESJB</h1>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-item">
+                    <span class="nav-icon">🏠</span>
+                    <span>Início</span>
+                </a>
+                <a href="associates.html" class="nav-item active">
+                    <span class="nav-icon">👥</span>
+                    <span>Associados</span>
+                </a>
+                <a href="payments.html" class="nav-item">
+                    <span class="nav-icon">💰</span>
+                    <span>Pagamentos</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <p class="admin-name" id="adminName"></p>
+                <button class="btn-logout" onclick="logout()">🚪 Sair</button>
+            </div>
+        </aside>
+
+        <!-- Conteúdo Principal -->
+        <main class="main-content">
+
+            <header class="topbar">
+                <h2 class="page-title">Associados</h2>
+                <button class="btn-primary" onclick="openModal()">+ Novo Associado</button>
+            </header>
+
+            <!-- Barra de Busca -->
+            <section class="search-section">
+                <input
+                    type="text"
+                    id="searchInput"
+                    class="search-input"
+                    placeholder="Buscar por nome ou CPF..."
+                    oninput="handleSearch()"
+                />
+            </section>
+
+            <!-- Tabela de Associados -->
+            <section class="table-section">
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>CPF</th>
+                                <th>E-mail</th>
+                                <th>Cargo</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="associatesTable">
+                            <tr>
+                                <td colspan="6" class="table-loading">Carregando...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Modal de Cadastro/Edição -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModalOnOverlay(event)">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Novo Associado</h3>
+                <button class="modal-close" onclick="closeModal()">✕</button>
+            </div>
+
+            <div class="modal-body">
+                <input type="hidden" id="associateId" />
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="inputName">Nome</label>
+                        <input type="text" id="inputName" placeholder="Nome completo" />
+                    </div>
+                    <div class="form-group">
+                        <label for="inputCPF">CPF</label>
+                        <input type="text" id="inputCPF" placeholder="000.000.000-00" maxlength="14" oninput="maskCPF(this)" />
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="inputEmail">E-mail</label>
+                        <input type="email" id="inputEmail" placeholder="email@exemplo.com" />
+                    </div>
+                    <div class="form-group">
+                        <label for="inputTel">Telefone</label>
+                        <input type="text" id="inputTel" placeholder="(00) 00000-0000" maxlength="15" oninput="maskTel(this)" />
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="inputDateOfBirth">Data de Nascimento</label>
+                        <input type="date" id="inputDateOfBirth" />
+                    </div>
+                    <div class="form-group">
+                        <label for="inputAssociationDate">Data de Associação</label>
+                        <input type="date" id="inputAssociationDate" />
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="inputPosition">Cargo</label>
+                        <input type="text" id="inputPosition" placeholder="Ex: Membro, Diretor..." />
+                    </div>
+                    <div class="form-group">
+                        <label for="inputStatus">Status</label>
+                        <select id="inputStatus">
+                            <option value="true">Ativo</option>
+                            <option value="false">Inativo</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputAddress">Endereço</label>
+                    <input type="text" id="inputAddress" placeholder="Rua, número, bairro..." />
+                </div>
+
+                <p class="modal-error" id="modalError"></p>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeModal()">Cancelar</button>
+                <button class="btn-primary" id="btnSave" onclick="saveAssociate()">Salvar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/associates.js"></script>
+</body>
+</html>
