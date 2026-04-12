@@ -19,12 +19,6 @@ function loadAdminName() {
     }
 }
 
-// converte data yyyy-mm-dd para o formato RFC3339 esperado pela API
-function toRFC3339(dateStr) {
-    if (!dateStr) return ""
-    return `${dateStr}T00:00:00Z`
-}
-
 // busca todos os associados e preenche a tabela
 async function loadAssociates() {
     const token = checkAuth()
@@ -171,8 +165,8 @@ async function saveAssociate() {
         cpf: document.getElementById("inputCPF").value.replace(/\D/g, ""),
         email: document.getElementById("inputEmail").value.trim(),
         tel: document.getElementById("inputTel").value.replace(/\D/g, ""),
-        date_of_birth: toRFC3339(dateOfBirth),
-        association_date: toRFC3339(associationDate),
+        date_of_birth: dateOfBirth,
+        association_date: associationDate,
         position: document.getElementById("inputPosition").value.trim(),
         address: document.getElementById("inputAddress").value.trim(),
         status: document.getElementById("inputStatus").value === "true"
@@ -230,8 +224,9 @@ async function deactivateAssociate(id) {
 
         const body = {
             ...associate,
-            date_of_birth: toRFC3339(associate.date_of_birth?.split("T")[0]),
-            association_date: toRFC3339(associate.association_date?.split("T")[0]),
+            cpf: associate.cpf.replace(/\D/g, ""),
+            date_of_birth: associate.date_of_birth?.split("T")[0],
+            association_date: associate.association_date?.split("T")[0],
             status: false
         }
 
