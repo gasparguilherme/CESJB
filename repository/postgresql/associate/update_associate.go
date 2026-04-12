@@ -4,6 +4,7 @@ import (
 	"cesjb/dto/associate"
 	"context"
 	"fmt"
+	"time"
 )
 
 func (r Repository) UpdateAssociate(input associate.UpdateAssociate) (int, error) {
@@ -20,7 +21,6 @@ func (r Repository) UpdateAssociate(input associate.UpdateAssociate) (int, error
 			position = $8
         WHERE id = $9  
 		RETURNING id;
- 
     `
 	var id int
 	err := r.connectionInstance.QueryRow(
@@ -29,8 +29,8 @@ func (r Repository) UpdateAssociate(input associate.UpdateAssociate) (int, error
 		input.Name,
 		input.Email,
 		input.Tel,
-		input.DateOfBirth,
-		input.AssociationDate,
+		time.Time(input.DateOfBirth),
+		time.Time(input.AssociationDate),
 		input.Address,
 		input.Status,
 		input.Position,
@@ -38,7 +38,7 @@ func (r Repository) UpdateAssociate(input associate.UpdateAssociate) (int, error
 	).Scan(&id)
 
 	if err != nil {
-		return 0, fmt.Errorf("falha em atualizar associado: %w (query: %s)", err, query)
+		return 0, fmt.Errorf("falha em atualizar associado: %w", err)
 	}
 	return id, nil
 }

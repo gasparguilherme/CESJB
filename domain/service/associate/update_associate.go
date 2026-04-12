@@ -2,12 +2,12 @@ package associate
 
 import (
 	"cesjb/dto/associate"
+	"cesjb/types_"
 	"errors"
 	"fmt"
-	"time"
 )
 
-func (s Service) UpdateAssociate(id int, name, email, tel string, dateOfBirth, associationDate time.Time,
+func (s Service) UpdateAssociate(id int, name, email, tel string, dateOfBirth, associationDate types_.DateOnly,
 	address string, status bool, position string) (int, error) {
 	associate := associate.UpdateAssociate{
 		ID:              id,
