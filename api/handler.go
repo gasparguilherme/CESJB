@@ -9,6 +9,7 @@ type Associate interface {
 	GetByCPF(w http.ResponseWriter, r *http.Request)
 	GetByName(w http.ResponseWriter, r *http.Request)
 	UpdateAssociate(w http.ResponseWriter, r *http.Request)
+	GetInactiveAssociates(w http.ResponseWriter, r *http.Request)
 }
 
 type Admin interface {
