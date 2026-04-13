@@ -54,7 +54,7 @@ function renderTable(associates) {
 
     tbody.innerHTML = associates.map(a => `
         <tr>
-            <td>${a.name}</td>
+            <td><a href="associate_detail.html?id=${a.id}" class="associate-link">${a.name}</a></td>
             <td>${formatCPF(a.cpf)}</td>
             <td>${a.email}</td>
             <td>${a.position}</td>
@@ -149,7 +149,6 @@ async function saveAssociate() {
     const dateOfBirth = document.getElementById("inputDateOfBirth").value
     const associationDate = document.getElementById("inputAssociationDate").value
 
-    // validação no frontend antes de enviar
     if (!dateOfBirth) {
         errorEl.textContent = "Data de nascimento é obrigatória."
         return
@@ -161,7 +160,7 @@ async function saveAssociate() {
     }
 
     const body = {
-        name: document.getElementById("inputName").value.trim(),
+        name: toTitleCase(document.getElementById("inputName").value.trim()),
         cpf: document.getElementById("inputCPF").value.replace(/\D/g, ""),
         email: document.getElementById("inputEmail").value.trim(),
         tel: document.getElementById("inputTel").value.replace(/\D/g, ""),
@@ -249,6 +248,11 @@ async function deactivateAssociate(id) {
     } catch (error) {
         alert("Não foi possível conectar ao servidor.")
     }
+}
+
+// converte string para Title Case: "joao silva" → "Joao Silva"
+function toTitleCase(str) {
+    return str.toLowerCase().replace(/\b\w/g, c => c.toUpperCase())
 }
 
 // máscara de CPF: 000.000.000-00
