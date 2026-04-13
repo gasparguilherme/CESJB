@@ -1,6 +1,7 @@
 const API_URL = "http://localhost:8088"
 
-let allAssociates = [] // guarda todos os associados para busca local
+let allAssociates = []
+let showingInactive = false
 
 // verifica autenticação
 function checkAuth() {
@@ -19,12 +20,13 @@ function loadAdminName() {
     }
 }
 
-// busca todos os associados e preenche a tabela
+// busca ativos ou inativos dependendo do estado atual
 async function loadAssociates() {
     const token = checkAuth()
+    const url = showingInactive ? `${API_URL}/associates/inactive` : `${API_URL}/associates`
 
     try {
-        const response = await fetch(`${API_URL}/associates`, {
+        const response = await fetch(url, {
             method: "GET",
             headers: { "Authorization": `Bearer ${token}` }
         })
@@ -39,6 +41,18 @@ async function loadAssociates() {
             <tr><td colspan="6" class="table-loading">Erro ao carregar associados.</td></tr>
         `
     }
+}
+
+// alterna entre ativos e inativos
+function toggleStatus() {
+    showingInactive = !showingInactive
+
+    document.getElementById("pageTitle").textContent = showingInactive ? "Associados Inativos" : "Associados Ativos"
+    document.getElementById("btnToggleStatus").textContent = showingInactive ? "Ver Ativos" : "Ver Inativos"
+    document.getElementById("btnNewAssociate").style.display = showingInactive ? "none" : "inline-block"
+    document.getElementById("searchInput").value = ""
+
+    loadAssociates()
 }
 
 // renderiza a tabela com a lista recebida
@@ -64,8 +78,11 @@ function renderTable(associates) {
                 </span>
             </td>
             <td>
-                <button class="btn-edit" onclick="openModalEdit(${a.id})" title="Editar">✏️</button>
-                <button class="btn-deactivate" onclick="deactivateAssociate(${a.id})" title="Desativar">🚫</button>
+                ${showingInactive
+                    ? `<button class="btn-edit" onclick="reactivateAssociate(${a.id})" title="Reativar">✅</button>`
+                    : `<button class="btn-edit" onclick="openModalEdit(${a.id})" title="Editar">✏️</button>
+                       <button class="btn-deactivate" onclick="deactivateAssociate(${a.id})" title="Desativar">🚫</button>`
+                }
             </td>
         </tr>
     `).join("")
@@ -73,21 +90,18 @@ function renderTable(associates) {
 
 // busca local por nome ou CPF
 function handleSearch() {
-
     const query = document.getElementById("searchInput").value.toLowerCase().trim()
-    console.log("query:", query)
-    console.log("allAssociates:", allAssociates.length)
-    console.log("primeiro nome:", allAssociates[0]?.name)
 
     if (query === "") {
         renderTable(allAssociates)
         return
     }
 
-    const filtered = allAssociates.filter(a =>
-        a.name.toLowerCase().includes(query) ||
-        a.cpf.includes(query.replace(/\D/g, ""))
-    )
+    const filtered = allAssociates.filter(a => {
+        const nameMatch = a.name.toLowerCase().includes(query)
+        const cpfMatch = /^\d+$/.test(query) && a.cpf.includes(query)
+        return nameMatch || cpfMatch
+    })
 
     renderTable(filtered)
 }
@@ -260,12 +274,51 @@ async function deactivateAssociate(id) {
     }
 }
 
-// converte string para Title Case: "joao silva" → "Joao Silva"
+// reativa associado
+async function reactivateAssociate(id) {
+    if (!confirm("Deseja reativar este associado?")) return
+
+    const token = checkAuth()
+
+    try {
+        const associate = allAssociates.find(a => a.id === id)
+        if (!associate) return
+
+        const body = {
+            ...associate,
+            cpf: associate.cpf.replace(/\D/g, ""),
+            date_of_birth: associate.date_of_birth?.split("T")[0],
+            association_date: associate.association_date?.split("T")[0],
+            status: true
+        }
+
+        const response = await fetch(`${API_URL}/associate/${id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify(body)
+        })
+
+        if (!response.ok) {
+            alert("Erro ao reativar associado.")
+            return
+        }
+
+        loadAssociates()
+
+    } catch (error) {
+        alert("Não foi possível conectar ao servidor.")
+    }
+}
+
+// converte string para Title Case
 function toTitleCase(str) {
     return str.toLowerCase().replace(/\b\w/g, c => c.toUpperCase())
 }
 
-// máscara de CPF: 000.000.000-00
+// máscara de CPF
 function maskCPF(input) {
     let v = input.value.replace(/\D/g, "")
     v = v.replace(/(\d{3})(\d)/, "$1.$2")
@@ -274,7 +327,7 @@ function maskCPF(input) {
     input.value = v
 }
 
-// máscara de telefone: (00) 00000-0000
+// máscara de telefone
 function maskTel(input) {
     let v = input.value.replace(/\D/g, "")
     v = v.replace(/(\d{2})(\d)/, "($1) $2")

@@ -42,8 +42,11 @@
         <main class="main-content">
 
             <header class="topbar">
-                <h2 class="page-title">Associados</h2>
-                <button class="btn-primary" onclick="openModal()">+ Novo Associado</button>
+                <h2 class="page-title" id="pageTitle">Associados Ativos</h2>
+                <div class="topbar-actions">
+                    <button class="btn-secondary" id="btnToggleStatus" onclick="toggleStatus()">Ver Inativos</button>
+                    <button class="btn-primary" id="btnNewAssociate" onclick="openModal()">+ Novo Associado</button>
+                </div>
             </header>
 
             <!-- Barra de Busca -->

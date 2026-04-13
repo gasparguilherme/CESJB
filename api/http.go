@@ -17,6 +17,9 @@ func StartApp(associateHandler Associate, adminHandler Admin, paymentHandler Pay
 	mux.Handle("GET /associates", middlewares.Logger(middlewares.Authenticate(
 		http.HandlerFunc(associateHandler.GetAssociates))))
 
+	mux.Handle("GET /associates/inactive", middlewares.Logger(middlewares.Authenticate(
+		http.HandlerFunc(associateHandler.GetInactiveAssociates))))
+
 	mux.Handle("GET /associate/id/{id}", middlewares.Logger(middlewares.Authenticate(
 		http.HandlerFunc(associateHandler.GetByID))))
 
