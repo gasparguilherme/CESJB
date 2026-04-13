@@ -58,7 +58,6 @@ async function loadAssociate() {
 
 // preenche a ficha com os dados do associado
 function renderDetail(a) {
-    // avatar com iniciais
     const initials = a.name.split(" ").map(n => n[0]).slice(0, 2).join("").toUpperCase()
     document.getElementById("detailAvatar").textContent = initials
 
@@ -76,7 +75,6 @@ function renderDetail(a) {
     document.getElementById("detailAssociationDate").textContent = formatDate(a.association_date)
     document.getElementById("detailAddress").textContent = a.address
 
-    // atualiza título da página
     document.title = `CESJB — ${a.name}`
 }
 
@@ -133,7 +131,7 @@ async function saveAssociate() {
     }
 
     const body = {
-        name: document.getElementById("inputName").value.trim(),
+        name: toTitleCase(document.getElementById("inputName").value.trim()),
         cpf: document.getElementById("inputCPF").value.replace(/\D/g, ""),
         email: document.getElementById("inputEmail").value.trim(),
         tel: document.getElementById("inputTel").value.replace(/\D/g, ""),
@@ -170,7 +168,7 @@ async function saveAssociate() {
         }
 
         closeModal()
-        loadAssociate() // recarrega a ficha com os dados atualizados
+        loadAssociate()
 
     } catch (error) {
         errorEl.textContent = "Não foi possível conectar ao servidor."
@@ -214,6 +212,11 @@ async function deactivateAssociate() {
     } catch (error) {
         alert("Não foi possível conectar ao servidor.")
     }
+}
+
+// converte string para Title Case: "joao silva" → "Joao Silva"
+function toTitleCase(str) {
+    return str.toLowerCase().replace(/\b\w/g, c => c.toUpperCase())
 }
 
 // formata CPF: 00000000000 → 000.000.000-00
