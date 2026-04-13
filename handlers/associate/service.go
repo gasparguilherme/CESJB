@@ -19,4 +19,6 @@ type Service interface {
 	GetAssociateByCPF(cpf string) (entities.Associate, error)
 
 	FindByName(name string) ([]entities.Associate, error)
+
+	GetInactiveAssociates() ([]entities.Associate, error)
 }
