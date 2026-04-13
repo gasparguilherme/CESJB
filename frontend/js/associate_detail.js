@@ -93,6 +93,9 @@ function openEditModal() {
     document.getElementById("inputAddress").value = currentAssociate.address
     document.getElementById("inputStatus").value = currentAssociate.status ? "true" : "false"
     document.getElementById("modalError").textContent = ""
+    const today = new Date().toISOString().split("T")[0]
+    document.getElementById("inputDateOfBirth").max = today
+    document.getElementById("inputAssociationDate").max = today
     document.getElementById("modalOverlay").classList.add("active")
 }
 
