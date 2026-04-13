@@ -54,7 +54,7 @@ function renderTable(associates) {
 
     tbody.innerHTML = associates.map(a => `
         <tr>
-            <td>${a.name}</td>
+            <td><a href="associate_detail.html?id=${a.id}" class="associate-link">${a.name}</a></td>
             <td>${formatCPF(a.cpf)}</td>
             <td>${a.email}</td>
             <td>${a.position}</td>
