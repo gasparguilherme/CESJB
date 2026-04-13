@@ -73,18 +73,21 @@ function renderTable(associates) {
 
 // busca local por nome ou CPF
 function handleSearch() {
+
     const query = document.getElementById("searchInput").value.toLowerCase().trim()
+    console.log("query:", query)
+    console.log("allAssociates:", allAssociates.length)
+    console.log("primeiro nome:", allAssociates[0]?.name)
 
     if (query === "") {
         renderTable(allAssociates)
         return
     }
 
-    const filtered = allAssociates.filter(a => {
-        const nameMatch = a.name.toLowerCase().includes(query)
-        const cpfMatch = /^\d+$/.test(query) && a.cpf.includes(query)
-        return nameMatch || cpfMatch
-    })
+    const filtered = allAssociates.filter(a =>
+        a.name.toLowerCase().includes(query) ||
+        a.cpf.includes(query.replace(/\D/g, ""))
+    )
 
     renderTable(filtered)
 }
@@ -103,6 +106,9 @@ function openModal() {
     document.getElementById("inputAddress").value = ""
     document.getElementById("inputStatus").value = "true"
     document.getElementById("modalError").textContent = ""
+    const today = new Date().toISOString().split("T")[0]
+    document.getElementById("inputDateOfBirth").max = today
+    document.getElementById("inputAssociationDate").max = today
     document.getElementById("modalOverlay").classList.add("active")
 }
 
@@ -123,6 +129,9 @@ function openModalEdit(id) {
     document.getElementById("inputAddress").value = associate.address
     document.getElementById("inputStatus").value = associate.status ? "true" : "false"
     document.getElementById("modalError").textContent = ""
+    const today = new Date().toISOString().split("T")[0]
+    document.getElementById("inputDateOfBirth").max = today
+    document.getElementById("inputAssociationDate").max = today
     document.getElementById("modalOverlay").classList.add("active")
 }
 
