@@ -80,10 +80,11 @@ function handleSearch() {
         return
     }
 
-    const filtered = allAssociates.filter(a =>
-        a.name.toLowerCase().includes(query) ||
-        a.cpf.includes(query.replace(/\D/g, ""))
-    )
+    const filtered = allAssociates.filter(a => {
+        const nameMatch = a.name.toLowerCase().includes(query)
+        const cpfMatch = /^\d+$/.test(query) && a.cpf.includes(query)
+        return nameMatch || cpfMatch
+    })
 
     renderTable(filtered)
 }
