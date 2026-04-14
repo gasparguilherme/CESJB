@@ -48,12 +48,12 @@
                         type="month"
                         id="monthPicker"
                         class="month-picker"
-                        onchange="loadPayments()"
+                        onchange="loadAll()"
                     />
                 </div>
             </header>
 
-            <!-- Card de Total -->
+            <!-- Cards de Resumo -->
             <section class="cards">
                 <div class="card">
                     <p class="card-label">Total do Mês</p>
@@ -63,10 +63,15 @@
                     <p class="card-label">Pagamentos Realizados</p>
                     <p class="card-value" id="totalCount">—</p>
                 </div>
+                <div class="card">
+                    <p class="card-label">Inadimplentes</p>
+                    <p class="card-value card-value-alert" id="totalDefaulters">—</p>
+                </div>
             </section>
 
             <!-- Tabela de Pagamentos -->
             <section class="table-section">
+                <h3 class="table-title">Pagamentos do Mês</h3>
                 <div class="table-wrapper">
                     <table>
                         <thead>
@@ -81,6 +86,26 @@
                         <tbody id="paymentsTable">
                             <tr>
                                 <td colspan="5" class="table-loading">Carregando...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Tabela de Inadimplentes -->
+            <section class="table-section">
+                <h3 class="table-title table-title-alert">Inadimplentes</h3>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>CPF</th>
+                            </tr>
+                        </thead>
+                        <tbody id="defaultersTable">
+                            <tr>
+                                <td colspan="2" class="table-loading">Carregando...</td>
                             </tr>
                         </tbody>
                     </table>

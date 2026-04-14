@@ -32,16 +32,19 @@ function getCompetence() {
     return `${value}-01`
 }
 
+// carrega pagamentos e inadimplentes ao mesmo tempo
+async function loadAll() {
+    await Promise.all([loadPayments(), loadDefaulters()])
+}
+
 // busca os pagamentos do mês selecionado
 async function loadPayments() {
     const token = checkAuth()
     const competence = getCompetence()
-
     if (!competence) return
 
     const tbody = document.getElementById("paymentsTable")
     tbody.innerHTML = `<tr><td colspan="5" class="table-loading">Carregando...</td></tr>`
-
     document.getElementById("totalPayments").textContent = "—"
     document.getElementById("totalCount").textContent = "—"
 
@@ -54,8 +57,7 @@ async function loadPayments() {
         if (response.status === 401) { logout(); return }
 
         const payments = await response.json()
-
-        renderTable(payments)
+        renderPaymentsTable(payments)
         renderSummary(payments)
 
     } catch (error) {
@@ -63,8 +65,35 @@ async function loadPayments() {
     }
 }
 
+// busca os inadimplentes do mês selecionado
+async function loadDefaulters() {
+    const token = checkAuth()
+    const competence = getCompetence()
+    if (!competence) return
+
+    const tbody = document.getElementById("defaultersTable")
+    tbody.innerHTML = `<tr><td colspan="2" class="table-loading">Carregando...</td></tr>`
+    document.getElementById("totalDefaulters").textContent = "—"
+
+    try {
+        const response = await fetch(`${API_URL}/payments/defaulters?competence=${competence}`, {
+            method: "GET",
+            headers: { "Authorization": `Bearer ${token}` }
+        })
+
+        if (response.status === 401) { logout(); return }
+
+        const defaulters = await response.json()
+        renderDefaultersTable(defaulters)
+        document.getElementById("totalDefaulters").textContent = defaulters.length
+
+    } catch (error) {
+        tbody.innerHTML = `<tr><td colspan="2" class="table-loading">Erro ao carregar inadimplentes.</td></tr>`
+    }
+}
+
 // renderiza a tabela de pagamentos
-function renderTable(payments) {
+function renderPaymentsTable(payments) {
     const tbody = document.getElementById("paymentsTable")
 
     if (payments.length === 0) {
@@ -83,6 +112,23 @@ function renderTable(payments) {
                     ${p.status ? 'Pago' : 'Pendente'}
                 </span>
             </td>
+        </tr>
+    `).join("")
+}
+
+// renderiza a tabela de inadimplentes
+function renderDefaultersTable(defaulters) {
+    const tbody = document.getElementById("defaultersTable")
+
+    if (defaulters.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="2" class="table-loading">Nenhum inadimplente neste mês. 🎉</td></tr>`
+        return
+    }
+
+    tbody.innerHTML = defaulters.map(d => `
+        <tr>
+            <td>${d.name}</td>
+            <td>${formatCPF(d.cpf)}</td>
         </tr>
     `).join("")
 }
@@ -109,6 +155,11 @@ function formatCurrency(value) {
     })
 }
 
+// formata CPF: 00000000000 → 000.000.000-00
+function formatCPF(cpf) {
+    return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4")
+}
+
 // logout
 function logout() {
     localStorage.removeItem("token")
@@ -119,4 +170,4 @@ function logout() {
 // inicializa
 loadAdminName()
 initMonthPicker()
-loadPayments()
+loadAll()
