@@ -22,4 +22,5 @@ type Payment interface {
 	GetMonthlyTotal(w http.ResponseWriter, r *http.Request)
 	GetPaymentsByMonth(w http.ResponseWriter, r *http.Request)
 	GetDefaultersByMonth(w http.ResponseWriter, r *http.Request)
+	GetPaymentsByAssociate(w http.ResponseWriter, r *http.Request)
 }
