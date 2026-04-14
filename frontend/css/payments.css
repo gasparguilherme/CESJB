@@ -1,0 +1,32 @@
+/* Topbar com seletor de mês */
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.month-picker {
+    padding: 8px 12px;
+    border: 1.5px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: #111827;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.month-picker:focus {
+    border-color: #1a6fd4;
+}
+
+/* Badge de status do pagamento */
+.badge-paid {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+.badge-pending {
+    background-color: #fef9c3;
+    color: #854d0e;
+}
