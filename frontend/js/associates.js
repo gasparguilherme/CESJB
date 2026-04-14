@@ -200,6 +200,11 @@ async function saveAssociate() {
         return
     }
 
+    if (!isValidEmail(body.email)) {
+        errorEl.textContent = "O e-mail informado não é válido."
+        return
+    }
+
     btnSave.disabled = true
     btnSave.textContent = "Salvando..."
 
@@ -311,6 +316,11 @@ async function reactivateAssociate(id) {
     } catch (error) {
         alert("Não foi possível conectar ao servidor.")
     }
+}
+
+// valida formato de email
+function isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
 }
 
 // converte string para Title Case

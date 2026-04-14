@@ -31,6 +31,15 @@ func ValidateAssociate(name string, cpf string, email string, tel string,
 		return errors.New("o cargo não pode estar vazio")
 	}
 
+	// valida formato do email
+	if !strings.Contains(email, "@") || !strings.Contains(email, ".") {
+		return errors.New("o email informado não é válido")
+	}
+	parts := strings.Split(email, "@")
+	if len(parts) != 2 || strings.TrimSpace(parts[0]) == "" || strings.TrimSpace(parts[1]) == "" {
+		return errors.New("o email informado não é válido")
+	}
+
 	// valida cpf sem pontos
 	if len(cpf) != 11 {
 		return errors.New("CPF deve ter exatamente 11 dígitos")
