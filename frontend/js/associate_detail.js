@@ -399,7 +399,7 @@ function renderPaymentHistory(payments) {
     const tbody = document.getElementById("paymentHistoryTable")
 
     if (payments.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="4" class="table-loading">Nenhum pagamento registrado.</td></tr>`
+        tbody.innerHTML = `<tr><td colspan="4" class="table-loading">Nenhum pagamento registrado nos últimos 12 meses.</td></tr>`
         return
     }
 
