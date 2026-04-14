@@ -93,9 +93,6 @@ function openEditModal() {
     document.getElementById("inputAddress").value = currentAssociate.address
     document.getElementById("inputStatus").value = currentAssociate.status ? "true" : "false"
     document.getElementById("modalError").textContent = ""
-    const today = new Date().toISOString().split("T")[0]
-    document.getElementById("inputDateOfBirth").max = today
-    document.getElementById("inputAssociationDate").max = today
     document.getElementById("modalOverlay").classList.add("active")
 }
 
@@ -147,6 +144,11 @@ async function saveAssociate() {
 
     if (!body.name || !body.cpf || !body.email) {
         errorEl.textContent = "Nome, CPF e e-mail são obrigatórios."
+        return
+    }
+
+    if (!isValidEmail(body.email)) {
+        errorEl.textContent = "O e-mail informado não é válido."
         return
     }
 
@@ -215,6 +217,11 @@ async function deactivateAssociate() {
     } catch (error) {
         alert("Não foi possível conectar ao servidor.")
     }
+}
+
+// valida formato de email
+function isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
 }
 
 // converte string para Title Case: "joao silva" → "Joao Silva"
