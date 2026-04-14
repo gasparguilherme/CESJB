@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../css/dashboard.css">
     <link rel="stylesheet" href="../css/associates.css">
     <link rel="stylesheet" href="../css/associate_detail.css">
+    <link rel="stylesheet" href="../css/payments.css">
 </head>
 <body>
 
@@ -97,6 +98,28 @@
                         </div>
                     </div>
 
+                </div>
+            </section>
+
+            <!-- Histórico de Pagamentos -->
+            <section class="table-section">
+                <h3 class="table-title">Histórico de Pagamentos</h3>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Competência</th>
+                                <th>Data do Pagamento</th>
+                                <th>Valor</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="paymentHistoryTable">
+                            <tr>
+                                <td colspan="4" class="table-loading">Carregando...</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </section>
 
