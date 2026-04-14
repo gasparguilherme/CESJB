@@ -152,6 +152,8 @@ async function saveAssociate() {
         return
     }
 
+    console.log("body:", body)
+    console.log("id:", id)
     btnSave.disabled = true
     btnSave.textContent = "Salvando..."
 
@@ -226,7 +228,7 @@ function isValidEmail(email) {
 
 // converte string para Title Case: "joao silva" → "Joao Silva"
 function toTitleCase(str) {
-    return str.toLowerCase().replace(/\b\w/g, c => c.toUpperCase())
+    return str.toLowerCase().split(" ").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ")
 }
 
 // formata CPF: 00000000000 → 000.000.000-00

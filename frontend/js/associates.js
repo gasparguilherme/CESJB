@@ -325,7 +325,7 @@ function isValidEmail(email) {
 
 // converte string para Title Case
 function toTitleCase(str) {
-    return str.toLowerCase().replace(/\b\w/g, c => c.toUpperCase())
+    return str.toLowerCase().split(" ").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ")
 }
 
 // máscara de CPF
