@@ -103,7 +103,7 @@ function renderPaymentsTable(payments) {
 
     tbody.innerHTML = payments.map(p => `
         <tr>
-            <td>${p.associate_name}</td>
+            <td><a href="associate_detail.html?id=${p.associate_id}" class="associate-link">${p.associate_name}</a></td>
             <td>${formatDate(p.competence)}</td>
             <td>${formatDate(p.payment_date)}</td>
             <td>${formatCurrency(p.value)}</td>

@@ -57,7 +57,7 @@ async function loadAssociates() {
 
         tbody.innerHTML = associates.map(associate => `
             <tr>
-                <td>${associate.name}</td>
+                <td><a href="associate_detail.html?id=${associate.id}" class="associate-link">${associate.name}</a></td>
                 <td>${formatCPF(associate.cpf)}</td>
                 <td>${associate.position}</td>
                 <td>
