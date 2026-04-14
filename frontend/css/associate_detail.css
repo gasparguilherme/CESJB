@@ -103,3 +103,9 @@
     color: #111827;
     font-weight: 500;
 }
+/* Subtítulo da tabela */
+.table-subtitle {
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: #9ca3af;
+}
