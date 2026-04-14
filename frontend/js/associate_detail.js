@@ -278,3 +278,96 @@ function maskTel(input) {
 // inicializa
 loadAdminName()
 loadAssociate()
+// abre modal de pagamento com valores padrão
+function openPaymentModal() {
+    const today = new Date()
+    const year = today.getFullYear()
+    const month = String(today.getMonth() + 1).padStart(2, "0")
+    const day = String(today.getDate()).padStart(2, "0")
+
+    document.getElementById("inputCompetence").value = `${year}-${month}`
+    document.getElementById("inputPaymentDate").value = `${year}-${month}-${day}`
+    document.getElementById("inputValue").value = ""
+    document.getElementById("inputPaymentStatus").value = "true"
+    document.getElementById("paymentModalError").textContent = ""
+    document.getElementById("paymentModalOverlay").classList.add("active")
+}
+
+// fecha modal de pagamento
+function closePaymentModal() {
+    document.getElementById("paymentModalOverlay").classList.remove("active")
+}
+
+// fecha modal de pagamento ao clicar fora
+function closePaymentModalOnOverlay(event) {
+    if (event.target === document.getElementById("paymentModalOverlay")) {
+        closePaymentModal()
+    }
+}
+
+// registra pagamento do associado
+async function savePayment() {
+    const token = checkAuth()
+    const errorEl = document.getElementById("paymentModalError")
+    const btnSave = document.getElementById("btnSavePayment")
+
+    errorEl.textContent = ""
+
+    const competenceRaw = document.getElementById("inputCompetence").value
+    const paymentDate = document.getElementById("inputPaymentDate").value
+    const value = parseFloat(document.getElementById("inputValue").value)
+    const status = document.getElementById("inputPaymentStatus").value === "true"
+
+    if (!competenceRaw) {
+        errorEl.textContent = "Competência é obrigatória."
+        return
+    }
+
+    if (!paymentDate) {
+        errorEl.textContent = "Data do pagamento é obrigatória."
+        return
+    }
+
+    if (!value || value <= 0) {
+        errorEl.textContent = "Valor deve ser maior que zero."
+        return
+    }
+
+    const body = {
+        associateID: currentAssociate.id,
+        competence: `${competenceRaw}-01`,
+        paymentDate: paymentDate,
+        value: value,
+        status: status
+    }
+
+    btnSave.disabled = true
+    btnSave.textContent = "Registrando..."
+
+    try {
+        const response = await fetch(`${API_URL}/payment`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify(body)
+        })
+
+        const data = await response.json()
+
+        if (!response.ok) {
+            errorEl.textContent = data.error || "Erro ao registrar pagamento."
+            return
+        }
+
+        closePaymentModal()
+        alert(`Pagamento registrado com sucesso!`)
+
+    } catch (error) {
+        errorEl.textContent = "Não foi possível conectar ao servidor."
+    } finally {
+        btnSave.disabled = false
+        btnSave.textContent = "Registrar"
+    }
+}
