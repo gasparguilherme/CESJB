@@ -44,6 +44,9 @@ func StartApp(associateHandler Associate, adminHandler Admin, paymentHandler Pay
 	mux.Handle("GET /payments/month", middlewares.Logger(middlewares.Authenticate(
 		http.HandlerFunc(paymentHandler.GetMonthlyTotal))))
 
+	mux.Handle("GET /payments/defaulters", middlewares.Logger(middlewares.Authenticate(
+		http.HandlerFunc(paymentHandler.GetDefaultersByMonth))))
+
 	mux.Handle("GET /payments", middlewares.Logger(middlewares.Authenticate(
 		http.HandlerFunc(paymentHandler.GetPaymentsByMonth))))
 
