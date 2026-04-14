@@ -30,7 +30,7 @@ func (r Repository) GetAssociates() ([]entities.Associate, error) {
 	}
 	defer rows.Close()
 
-	var associates []entities.Associate
+	associates := []entities.Associate{}
 
 	for rows.Next() {
 		var a entities.Associate

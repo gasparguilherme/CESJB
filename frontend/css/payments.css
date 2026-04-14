@@ -39,3 +39,9 @@
 .table-title-alert {
     color: #dc2626;
 }
+
+.associate-link {
+    color: #1a6fd4;
+    text-decoration: none;  /* já deve estar aqui */
+    ...
+}

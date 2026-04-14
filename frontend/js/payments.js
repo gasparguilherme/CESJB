@@ -127,7 +127,7 @@ function renderDefaultersTable(defaulters) {
 
     tbody.innerHTML = defaulters.map(d => `
         <tr>
-            <td>${d.name}</td>
+            <td><a href="associate_detail.html?id=${d.id}" class="associate-link">${d.name}</a></td>
             <td>${formatCPF(d.cpf)}</td>
         </tr>
     `).join("")
