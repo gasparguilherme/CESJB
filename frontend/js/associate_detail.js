@@ -371,3 +371,57 @@ async function savePayment() {
         btnSave.textContent = "Registrar"
     }
 }
+
+// busca o histórico de pagamentos do associado
+async function loadPaymentHistory() {
+    const token = checkAuth()
+    const id = getIDFromURL()
+    const tbody = document.getElementById("paymentHistoryTable")
+
+    try {
+        const response = await fetch(`${API_URL}/payments/associate/${id}`, {
+            method: "GET",
+            headers: { "Authorization": `Bearer ${token}` }
+        })
+
+        if (response.status === 401) { logout(); return }
+
+        const payments = await response.json()
+        renderPaymentHistory(payments)
+
+    } catch (error) {
+        tbody.innerHTML = `<tr><td colspan="4" class="table-loading">Erro ao carregar histórico.</td></tr>`
+    }
+}
+
+// renderiza o histórico de pagamentos
+function renderPaymentHistory(payments) {
+    const tbody = document.getElementById("paymentHistoryTable")
+
+    if (payments.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4" class="table-loading">Nenhum pagamento registrado.</td></tr>`
+        return
+    }
+
+    tbody.innerHTML = payments.map(p => `
+        <tr>
+            <td>${formatDate(p.competence)}</td>
+            <td>${formatDate(p.paymentDate)}</td>
+            <td>${formatCurrency(p.value)}</td>
+            <td>
+                <span class="badge ${p.status ? 'badge-paid' : 'badge-pending'}">
+                    ${p.status ? 'Pago' : 'Pendente'}
+                </span>
+            </td>
+        </tr>
+    `).join("")
+}
+
+// formata valor em reais
+function formatCurrency(value) {
+    return value.toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL"
+    })
+}
+loadPaymentHistory()

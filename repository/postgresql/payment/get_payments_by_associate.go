@@ -9,7 +9,7 @@ import (
 // GetPaymentsByAssociate retorna todos os pagamentos de um associado específico
 func (r Repository) GetPaymentsByAssociate(associateID int) ([]entities.Payment, error) {
 	query := `
-		SELECT
+			SELECT
 			id,
 			associate_id,
 			competence,
@@ -18,6 +18,7 @@ func (r Repository) GetPaymentsByAssociate(associateID int) ([]entities.Payment,
 			status
 		FROM payments
 		WHERE associate_id = $1
+		AND competence >= DATE_TRUNC('month', NOW()) - INTERVAL '11 months'
 		ORDER BY competence DESC
 	`
 
