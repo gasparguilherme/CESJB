@@ -49,7 +49,8 @@
                 </div>
                 <div class="topbar-actions">
                     <button class="btn-secondary" id="btnDeactivate" onclick="deactivateAssociate()">🚫 Desativar</button>
-                    <button class="btn-primary" id="btnEdit" onclick="openEditModal()">✏️ Editar</button>
+                    <button class="btn-secondary" id="btnEdit" onclick="openEditModal()">✏️ Editar</button>
+                    <button class="btn-primary" onclick="openPaymentModal()">💰 Registrar Pagamento</button>
                 </div>
             </header>
 
@@ -171,6 +172,50 @@
             <div class="modal-footer">
                 <button class="btn-secondary" onclick="closeModal()">Cancelar</button>
                 <button class="btn-primary" id="btnSave" onclick="saveAssociate()">Salvar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Pagamento -->
+    <div class="modal-overlay" id="paymentModalOverlay" onclick="closePaymentModalOnOverlay(event)">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Registrar Pagamento</h3>
+                <button class="modal-close" onclick="closePaymentModal()">✕</button>
+            </div>
+
+            <div class="modal-body">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="inputCompetence">Competência</label>
+                        <input type="month" id="inputCompetence" />
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPaymentDate">Data do Pagamento</label>
+                        <input type="date" id="inputPaymentDate" />
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="inputValue">Valor (R$)</label>
+                        <input type="number" id="inputValue" placeholder="0,00" min="0.01" step="0.01" />
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPaymentStatus">Status</label>
+                        <select id="inputPaymentStatus">
+                            <option value="true">Pago</option>
+                            <option value="false">Pendente</option>
+                        </select>
+                    </div>
+                </div>
+
+                <p class="modal-error" id="paymentModalError"></p>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closePaymentModal()">Cancelar</button>
+                <button class="btn-primary" id="btnSavePayment" onclick="savePayment()">Registrar</button>
             </div>
         </div>
     </div>
