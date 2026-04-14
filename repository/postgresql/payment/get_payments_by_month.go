@@ -1,27 +1,16 @@
 package payment
 
 import (
+	"cesjb/domain/entities"
 	"cesjb/types_"
 	"context"
 	"fmt"
 	"time"
 )
 
-// PaymentWithAssociate representa um pagamento com o nome do associado
-// usado para evitar múltiplas requisições ao banco
-type PaymentWithAssociate struct {
-	ID            int
-	AssociateID   int
-	AssociateName string
-	Competence    types_.DateOnly
-	PaymentDate   types_.DateOnly
-	Value         float64
-	Status        bool
-}
-
 // GetPaymentsByMonth retorna todos os pagamentos de um mês específico
 // junto com o nome do associado via JOIN
-func (r Repository) GetPaymentsByMonth(competence types_.DateOnly) ([]PaymentWithAssociate, error) {
+func (r Repository) GetPaymentsByMonth(competence types_.DateOnly) ([]entities.PaymentWithAssociate, error) {
 	query := `
 		SELECT 
 			p.id,
@@ -44,10 +33,10 @@ func (r Repository) GetPaymentsByMonth(competence types_.DateOnly) ([]PaymentWit
 	defer rows.Close()
 
 	// inicializa slice vazio para evitar retorno null quando não há pagamentos
-	payments := []PaymentWithAssociate{}
+	payments := []entities.PaymentWithAssociate{}
 
 	for rows.Next() {
-		var p PaymentWithAssociate
+		var p entities.PaymentWithAssociate
 		err := rows.Scan(
 			&p.ID,
 			&p.AssociateID,
