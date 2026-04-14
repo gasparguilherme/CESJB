@@ -1,6 +1,7 @@
 package payment
 
 import (
+	"cesjb/handlers/associate/validate"
 	"encoding/json"
 	"log/slog"
 	"net/http"
@@ -12,17 +13,19 @@ import (
 func (h Handler) GetPaymentsByAssociate(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
-	idStr := r.PathValue("id")
-	if idStr == "" {
+	rawID := r.PathValue("id")
+	id, err := strconv.Atoi(rawID)
+	if err != nil {
+		slog.Error("erro ao converter id para inteiro", "id", rawID, "error", err)
 		w.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(w).Encode(map[string]string{
-			"error": "id não informado",
+			"error": "id inválido",
 		})
 		return
 	}
 
-	id, err := strconv.Atoi(idStr)
-	if err != nil || id <= 0 {
+	if err = validate.ValidateID(id); err != nil {
+		slog.Error("erro ao validar id", "error", err)
 		w.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(w).Encode(map[string]string{
 			"error": "id inválido",
