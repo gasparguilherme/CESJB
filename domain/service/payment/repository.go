@@ -10,4 +10,5 @@ type Repository interface {
 	GetMonthlyTotal(competence types_.DateOnly) (float64, error)
 	GetPaymentsByMonth(competence types_.DateOnly) ([]entities.PaymentWithAssociate, error)
 	GetDefaultersByMonth(competence types_.DateOnly) ([]entities.Associate, error)
+	GetPaymentsByAssociate(associateID int) ([]entities.Payment, error)
 }
