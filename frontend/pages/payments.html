@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CESJB — Pagamentos</title>
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/payments.css">
+</head>
+<body>
+
+    <div class="layout">
+
+        <!-- Menu Lateral -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <h1>CESJB</h1>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-item">
+                    <span class="nav-icon">🏠</span>
+                    <span>Início</span>
+                </a>
+                <a href="associates.html" class="nav-item">
+                    <span class="nav-icon">👥</span>
+                    <span>Associados</span>
+                </a>
+                <a href="payments.html" class="nav-item active">
+                    <span class="nav-icon">💰</span>
+                    <span>Pagamentos</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <p class="admin-name" id="adminName"></p>
+                <button class="btn-logout" onclick="logout()">🚪 Sair</button>
+            </div>
+        </aside>
+
+        <!-- Conteúdo Principal -->
+        <main class="main-content">
+
+            <header class="topbar">
+                <h2 class="page-title">Pagamentos</h2>
+                <div class="topbar-actions">
+                    <input
+                        type="month"
+                        id="monthPicker"
+                        class="month-picker"
+                        onchange="loadPayments()"
+                    />
+                </div>
+            </header>
+
+            <!-- Card de Total -->
+            <section class="cards">
+                <div class="card">
+                    <p class="card-label">Total do Mês</p>
+                    <p class="card-value" id="totalPayments">—</p>
+                </div>
+                <div class="card">
+                    <p class="card-label">Pagamentos Realizados</p>
+                    <p class="card-value" id="totalCount">—</p>
+                </div>
+            </section>
+
+            <!-- Tabela de Pagamentos -->
+            <section class="table-section">
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Associado</th>
+                                <th>Competência</th>
+                                <th>Data do Pagamento</th>
+                                <th>Valor</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="paymentsTable">
+                            <tr>
+                                <td colspan="5" class="table-loading">Carregando...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script src="../js/payments.js"></script>
+</body>
+</html>
