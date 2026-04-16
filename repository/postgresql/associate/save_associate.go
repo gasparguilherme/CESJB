@@ -1,10 +1,14 @@
 package associate
 
 import (
+	"cesjb/domain"
 	"cesjb/domain/entities"
 	"context"
+	"errors"
 	"fmt"
 	"time"
+
+	"github.com/jackc/pgx/v5/pgconn"
 )
 
 func (r Repository) SaveAssociate(data entities.Associate) (int, error) {
@@ -29,7 +33,14 @@ func (r Repository) SaveAssociate(data entities.Associate) (int, error) {
 	).Scan(&id)
 
 	if err != nil {
+		// verifica se é erro de CPF duplicado (unique constraint)
+		var pgErr *pgconn.PgError
+		if errors.As(err, &pgErr) && pgErr.Code == "23505" {
+			return 0, domain.ErrCPFAlreadyExists
+		}
+
 		return 0, fmt.Errorf("executando query: %w", err)
 	}
+
 	return id, nil
 }

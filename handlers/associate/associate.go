@@ -1,9 +1,11 @@
 package associate
 
 import (
+	"cesjb/domain"
 	"cesjb/domain/entities"
 	"cesjb/handlers/associate/validate"
 	"encoding/json"
+	"errors"
 	"log/slog"
 	"net/http"
 )
@@ -42,6 +44,14 @@ func (h Handler) CreateAssociate(w http.ResponseWriter, r *http.Request) {
 		associatedRequest.Status, associatedRequest.Position)
 	if err != nil {
 		slog.Error("erro ao criar usuario", "error", err)
+
+		if errors.Is(err, domain.ErrCPFAlreadyExists) {
+			w.WriteHeader(http.StatusConflict)
+			json.NewEncoder(w).Encode(map[string]string{
+				"error": domain.ErrCPFAlreadyExists.Error(),
+			})
+			return
+		}
 
 		w.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(w).Encode(map[string]string{
