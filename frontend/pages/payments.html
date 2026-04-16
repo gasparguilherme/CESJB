@@ -51,6 +51,7 @@
                         class="month-picker"
                         onchange="loadAll()"
                     />
+                    <button class="btn-primary" onclick="openModal()">+ Registrar Pagamento</button>
                 </div>
             </header>
 
@@ -114,6 +115,57 @@
             </section>
 
         </main>
+    </div>
+
+    <!-- Modal de Registrar Pagamento -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModalOnOverlay(event)">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Registrar Pagamento</h3>
+                <button class="modal-close" onclick="closeModal()">✕</button>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="form-group">
+                    <label for="inputAssociate">Associado</label>
+                    <div class="autocomplete-wrapper">
+                        <input
+                            type="text"
+                            id="inputAssociate"
+                            placeholder="Digite o nome do associado..."
+                            oninput="filterAssociates()"
+                            autocomplete="off"
+                        />
+                        <input type="hidden" id="inputAssociateID" />
+                        <ul class="autocomplete-list" id="autocompleteList"></ul>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="inputCompetence">Competência</label>
+                        <input type="month" id="inputCompetence" />
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPaymentDate">Data do Pagamento</label>
+                        <input type="date" id="inputPaymentDate" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputValue">Valor (R$)</label>
+                    <input type="number" id="inputValue" placeholder="0,00" min="0" step="0.01" />
+                </div>
+
+                <p class="modal-error" id="modalError"></p>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeModal()">Cancelar</button>
+                <button class="btn-primary" id="btnSave" onclick="savePayment()">Registrar</button>
+            </div>
+        </div>
     </div>
 
     <script src="../js/payments.js"></script>

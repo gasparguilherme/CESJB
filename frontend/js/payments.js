@@ -1,5 +1,8 @@
 const API_URL = "http://localhost:8088"
 
+// lista de associados ativos carregada uma vez ao abrir o modal
+let allAssociates = []
+
 // verifica autenticação
 function checkAuth() {
     const token = localStorage.getItem("token")
@@ -140,6 +143,166 @@ function renderSummary(payments) {
     document.getElementById("totalCount").textContent = payments.length
 }
 
+// abre modal e carrega lista de associados
+async function openModal() {
+    const token = checkAuth()
+    const errorEl = document.getElementById("modalError")
+    errorEl.textContent = ""
+
+    // preenche a competência com o mês selecionado
+    const monthValue = document.getElementById("monthPicker").value
+    document.getElementById("inputCompetence").value = monthValue
+
+    // preenche a data de pagamento com hoje
+    const today = new Date().toISOString().split("T")[0]
+    document.getElementById("inputPaymentDate").value = today
+    document.getElementById("inputPaymentDate").max = today
+
+    document.getElementById("inputValue").value = ""
+    document.getElementById("inputAssociate").value = ""
+    document.getElementById("inputAssociateID").value = ""
+    document.getElementById("autocompleteList").classList.remove("active")
+
+    // carrega associados ativos
+    try {
+        const response = await fetch(`${API_URL}/associates`, {
+            method: "GET",
+            headers: { "Authorization": `Bearer ${token}` }
+        })
+
+        if (response.status === 401) { logout(); return }
+
+        allAssociates = await response.json()
+
+    } catch (error) {
+        errorEl.textContent = "Erro ao carregar associados."
+    }
+
+    document.getElementById("modalOverlay").classList.add("active")
+}
+
+// filtra associados conforme o admin digita
+function filterAssociates() {
+    const query = document.getElementById("inputAssociate").value.toLowerCase().trim()
+    const list = document.getElementById("autocompleteList")
+
+    // limpa o ID selecionado quando o admin edita o campo
+    document.getElementById("inputAssociateID").value = ""
+
+    if (query === "") {
+        list.classList.remove("active")
+        list.innerHTML = ""
+        return
+    }
+
+    const filtered = allAssociates.filter(a =>
+        a.name.toLowerCase().includes(query)
+    )
+
+    if (filtered.length === 0) {
+        list.classList.remove("active")
+        return
+    }
+
+    list.innerHTML = filtered.map(a => `
+        <li onclick="selectAssociate(${a.id}, '${a.name}')">${a.name}</li>
+    `).join("")
+
+    list.classList.add("active")
+}
+
+// preenche o campo ao selecionar uma sugestão
+function selectAssociate(id, name) {
+    document.getElementById("inputAssociate").value = name
+    document.getElementById("inputAssociateID").value = id
+    document.getElementById("autocompleteList").classList.remove("active")
+    document.getElementById("autocompleteList").innerHTML = ""
+}
+
+// fecha modal
+function closeModal() {
+    document.getElementById("modalOverlay").classList.remove("active")
+    document.getElementById("autocompleteList").classList.remove("active")
+}
+
+// fecha modal ao clicar fora
+function closeModalOnOverlay(event) {
+    if (event.target === document.getElementById("modalOverlay")) {
+        closeModal()
+    }
+}
+
+// registra o pagamento
+async function savePayment() {
+    const token = checkAuth()
+    const errorEl = document.getElementById("modalError")
+    const btnSave = document.getElementById("btnSave")
+
+    errorEl.textContent = ""
+
+    const associateID = parseInt(document.getElementById("inputAssociateID").value)
+    const competence = document.getElementById("inputCompetence").value
+    const paymentDate = document.getElementById("inputPaymentDate").value
+    const value = parseFloat(document.getElementById("inputValue").value)
+
+    // validações
+    if (!associateID) {
+        errorEl.textContent = "Selecione um associado da lista."
+        return
+    }
+
+    if (!competence) {
+        errorEl.textContent = "Informe a competência."
+        return
+    }
+
+    if (!paymentDate) {
+        errorEl.textContent = "Informe a data do pagamento."
+        return
+    }
+
+    if (!value || value <= 0) {
+        errorEl.textContent = "Informe um valor válido."
+        return
+    }
+
+    btnSave.disabled = true
+    btnSave.textContent = "Registrando..."
+
+    try {
+        const response = await fetch(`${API_URL}/payment`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                associateID,
+                competence: `${competence}-01`,
+                paymentDate,
+                value,
+                status: true
+            })
+        })
+
+        const data = await response.json()
+
+        if (!response.ok) {
+            errorEl.textContent = data.error || "Erro ao registrar pagamento."
+            return
+        }
+
+        closeModal()
+        loadAll()
+
+    } catch (error) {
+        errorEl.textContent = "Não foi possível conectar ao servidor."
+    } finally {
+        btnSave.disabled = false
+        btnSave.textContent = "Registrar"
+    }
+}
+
 // formata data yyyy-mm-dd para dd/mm/yyyy
 function formatDate(dateStr) {
     if (!dateStr) return "—"
@@ -166,6 +329,14 @@ function logout() {
     localStorage.removeItem("admin")
     window.location.href = "../index.html"
 }
+
+// fecha autocomplete ao clicar fora dele
+document.addEventListener("click", function(e) {
+    const wrapper = document.querySelector(".autocomplete-wrapper")
+    if (wrapper && !wrapper.contains(e.target)) {
+        document.getElementById("autocompleteList")?.classList.remove("active")
+    }
+})
 
 // inicializa
 loadAdminName()

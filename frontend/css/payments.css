@@ -5,14 +5,23 @@
     justify-content: space-between;
 }
 
+.topbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Seletor de mês — mesmo estilo do botão */
 .month-picker {
-    padding: 8px 12px;
+    padding: 10px 18px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #111827;
     border: 1.5px solid #d1d5db;
     border-radius: 8px;
-    font-size: 0.9rem;
-    color: #111827;
     outline: none;
     cursor: pointer;
+    background-color: #ffffff;
     transition: border-color 0.2s;
 }
 
@@ -40,8 +49,57 @@
     color: #dc2626;
 }
 
-.associate-link {
-    color: #1a6fd4;
-    text-decoration: none;  /* já deve estar aqui */
-    ...
+/* Autocomplete de associado */
+.autocomplete-wrapper {
+    position: relative;
+}
+
+.autocomplete-wrapper input[type="text"] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1.5px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: #111827;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.autocomplete-wrapper input[type="text"]:focus {
+    border-color: #1a6fd4;
+}
+
+.autocomplete-list {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: #ffffff;
+    border: 1.5px solid #d1d5db;
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 100;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.autocomplete-list.active {
+    display: block;
+}
+
+.autocomplete-list li {
+    padding: 10px 14px;
+    font-size: 0.9rem;
+    color: #374151;
+    cursor: pointer;
+    transition: background-color 0.15s;
+}
+
+.autocomplete-list li:hover {
+    background-color: #f3f4f6;
 }
