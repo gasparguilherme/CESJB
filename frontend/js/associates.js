@@ -357,6 +357,17 @@ function logout() {
     window.location.href = "../index.html"
 }
 
+// Enter no modal salva o formulário / Esc fecha
+document.addEventListener("keydown", function(e) {
+    const modalActive = document.getElementById("modalOverlay").classList.contains("active")
+    if (e.key === "Enter" && modalActive) {
+        saveAssociate()
+    }
+    if (e.key === "Escape" && modalActive) {
+        closeModal()
+    }
+})
+
 // inicializa
 loadAdminName()
 loadAssociates()
