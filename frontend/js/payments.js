@@ -338,6 +338,16 @@ document.addEventListener("click", function(e) {
     }
 })
 
+document.addEventListener("keydown", function(e) {
+    const modalActive = document.getElementById("modalOverlay").classList.contains("active")
+    if (e.key === "Enter" && modalActive) {
+        savePayment()
+    }
+    if (e.key === "Escape" && modalActive) {
+        closeModal()
+    }
+})
+
 // inicializa
 loadAdminName()
 initMonthPicker()
