@@ -12,4 +12,5 @@ type Service interface {
 	GetPaymentsByMonth(competence types_.DateOnly) ([]entities.PaymentWithAssociate, error)
 	GetDefaultersByMonth(competence types_.DateOnly) ([]entities.Associate, error)
 	GetPaymentsByAssociate(associateID int) ([]entities.Payment, error)
+	UpdatePayment(id int, competence, paymentDate types_.DateOnly, value float64, status bool) (entities.Payment, error)
 }
