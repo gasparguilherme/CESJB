@@ -9,4 +9,5 @@ var (
 	ErrCreatePayment        = errors.New("erro ao registrar pagamento")
 	ErrListAssociates       = errors.New("erro ao listar associados ativos")
 	ErrCPFAlreadyExists     = errors.New("este CPF já está cadastrado")
+	ErrPaymentNotFound      = errors.New("erro ao editar pagamento")
 )
