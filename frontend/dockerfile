@@ -1,0 +1,9 @@
+# Usa nginx para servir os arquivos estáticos do frontend
+FROM nginx:alpine
+
+# copia os arquivos do frontend para o diretório do nginx
+COPY . /usr/share/nginx/html
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]

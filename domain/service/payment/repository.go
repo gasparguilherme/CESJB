@@ -11,4 +11,5 @@ type Repository interface {
 	GetPaymentsByMonth(competence types_.DateOnly) ([]entities.PaymentWithAssociate, error)
 	GetDefaultersByMonth(competence types_.DateOnly) ([]entities.Associate, error)
 	GetPaymentsByAssociate(associateID int) ([]entities.Payment, error)
+	UpdatePayment(payment entities.Payment) (entities.Payment, error)
 }
