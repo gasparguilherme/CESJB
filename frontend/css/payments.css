@@ -225,3 +225,15 @@
     color: #9ca3af;
     margin-top: 4px;
 }
+
+table td:last-child,
+table th:last-child {
+    text-align: center;
+}
+
+table td:last-child,
+table th:last-child {
+    text-align: center;
+    width: 1%;
+    white-space: nowrap;
+}
