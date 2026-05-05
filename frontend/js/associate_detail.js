@@ -401,22 +401,28 @@ function renderPaymentHistory(payments) {
     const tbody = document.getElementById("paymentHistoryTable")
 
     if (payments.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="4" class="table-loading">Nenhum pagamento registrado nos últimos 12 meses.</td></tr>`
+        tbody.innerHTML = `<tr><td colspan="5" class="table-loading">Nenhum pagamento registrado nos últimos 12 meses.</td></tr>`
         return
     }
 
-    tbody.innerHTML = payments.map(p => `
+    tbody.innerHTML = payments.map(p => {
+        const competence = p.competence || ""
+        const paymentDate = p.paymentDate || p.payment_date || ""
+        return `
         <tr>
-            <td>${formatDate(p.competence)}</td>
-            <td>${formatDate(p.paymentDate)}</td>
+            <td>${formatDate(competence)}</td>
+            <td>${formatDate(paymentDate)}</td>
             <td>${formatCurrency(p.value)}</td>
             <td>
                 <span class="badge ${p.status ? 'badge-paid' : 'badge-pending'}">
                     ${p.status ? 'Pago' : 'Pendente'}
                 </span>
             </td>
-        </tr>
-    `).join("")
+            <td>
+                <button class="btn-edit" onclick="openEditPaymentModal(${p.id}, '${competence}', '${paymentDate}', ${p.value}, ${p.status})">✏️ Editar</button>
+            </td>
+        </tr>`
+    }).join("")
 }
 
 // formata valor em reais
@@ -427,3 +433,83 @@ function formatCurrency(value) {
     })
 }
 loadPaymentHistory()
+
+function openEditPaymentModal(id, competence, paymentDate, value, status) {
+    document.getElementById("editPaymentID").value = id
+    document.getElementById("editCompetence").value = competence.split("T")[0].substring(0, 7)
+    document.getElementById("editPaymentDate").value = paymentDate.split("T")[0]
+    document.getElementById("editValue").value = value
+    document.getElementById("editStatus").value = String(status)
+    document.getElementById("editPaymentModalError").textContent = ""
+    document.getElementById("editPaymentModalOverlay").classList.add("active")
+}
+
+function closeEditPaymentModal() {
+    document.getElementById("editPaymentModalOverlay").classList.remove("active")
+}
+
+function closeEditPaymentModalOnOverlay(event) {
+    if (event.target === document.getElementById("editPaymentModalOverlay")) {
+        closeEditPaymentModal()
+    }
+}
+
+async function saveEditPayment() {
+    const token = checkAuth()
+    const errorEl = document.getElementById("editPaymentModalError")
+    const btnSave = document.getElementById("btnSaveEditPayment")
+
+    errorEl.textContent = ""
+
+    const id = document.getElementById("editPaymentID").value
+    const competence = document.getElementById("editCompetence").value
+    const paymentDate = document.getElementById("editPaymentDate").value
+    const value = parseFloat(document.getElementById("editValue").value)
+    const status = document.getElementById("editStatus").value === "true"
+
+    if (!competence) { errorEl.textContent = "Informe a competência."; return }
+    if (!paymentDate) { errorEl.textContent = "Informe a data do pagamento."; return }
+    if (!value || value <= 0) { errorEl.textContent = "Informe um valor válido."; return }
+
+    btnSave.disabled = true
+    btnSave.textContent = "Salvando..."
+
+    try {
+        const response = await fetch(`${API_URL}/payment/${id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                associateID: currentAssociate.id,
+                competence: `${competence}-01`,
+                paymentDate,
+                value,
+                status
+            })
+        })
+
+        const data = await response.json()
+
+        if (!response.ok) {
+            errorEl.textContent = data.error || "Erro ao atualizar pagamento."
+            return
+        }
+
+        closeEditPaymentModal()
+        loadPaymentHistory()
+
+    } catch (error) {
+        errorEl.textContent = "Não foi possível conectar ao servidor."
+    } finally {
+        btnSave.disabled = false
+        btnSave.textContent = "Salvar"
+    }
+}
+
+document.addEventListener("keydown", function(e) {
+    const editActive = document.getElementById("editPaymentModalOverlay").classList.contains("active")
+    if (e.key === "Escape" && editActive) closeEditPaymentModal()
+    if (e.key === "Enter" && editActive) saveEditPayment()
+})
