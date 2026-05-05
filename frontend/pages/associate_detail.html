@@ -112,6 +112,7 @@
                                 <th>Data do Pagamento</th>
                                 <th>Valor</th>
                                 <th>Status</th>
+                                <th>Ações</th>
                             </tr>
                         </thead>
                         <tbody id="paymentHistoryTable">
@@ -243,6 +244,47 @@
         </div>
     </div>
 
+    <!-- Modal de Editar Pagamento -->
+    <div class="modal-overlay" id="editPaymentModalOverlay" onclick="closeEditPaymentModalOnOverlay(event)">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Editar Pagamento</h3>
+                <button class="modal-close" onclick="closeEditPaymentModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="editPaymentID" />
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="editCompetence">Competência</label>
+                        <input type="month" id="editCompetence" />
+                    </div>
+                    <div class="form-group">
+                        <label for="editPaymentDate">Data do Pagamento</label>
+                        <input type="date" id="editPaymentDate" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="editValue">Valor (R$)</label>
+                        <input type="number" id="editValue" min="0.01" step="0.01" />
+                    </div>
+                    <div class="form-group">
+                        <label for="editStatus">Status</label>
+                        <select id="editStatus">
+                            <option value="true">Pago</option>
+                            <option value="false">Pendente</option>
+                        </select>
+                    </div>
+                </div>
+                <p class="modal-error" id="editPaymentModalError"></p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeEditPaymentModal()">Cancelar</button>
+                <button class="btn-primary" id="btnSaveEditPayment" onclick="saveEditPayment()">Salvar</button>
+            </div>
+        </div>
+    </div>
+
     <script src="../js/associate_detail.js"></script>
 </body>
-</html>
+</html>l>
