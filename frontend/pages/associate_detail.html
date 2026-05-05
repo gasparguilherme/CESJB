@@ -285,6 +285,40 @@
         </div>
     </div>
 
+    <!-- Modal de Recibo -->
+    <div class="modal-overlay" id="receiptModalOverlay" onclick="closeReceiptModalOnOverlay(event)">
+        <div class="modal modal-receipt">
+            <div class="modal-header">
+                <h3 class="modal-title">Recibo de Pagamento</h3>
+                <button class="modal-close" onclick="closeReceiptModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <div id="receiptContent">
+                    <h1>CESJB</h1>
+                    <h2>Recibo de Pagamento</h2>
+                    <hr />
+                    <table>
+                        <tr><td>Associado:</td><td id="receiptAssociateName">—</td></tr>
+                        <tr><td>CPF:</td><td id="receiptCPF">—</td></tr>
+                        <tr><td>Competência:</td><td id="receiptCompetence">—</td></tr>
+                        <tr><td>Data do Pagamento:</td><td id="receiptPaymentDate">—</td></tr>
+                        <tr><td>Valor:</td><td id="receiptValue">—</td></tr>
+                        <tr><td>Status:</td><td id="receiptStatus">—</td></tr>
+                    </table>
+                    <hr />
+                    <p class="receipt-footer">Declaro que recebi a quantia acima referente à contribuição do associado.</p>
+                    <p class="receipt-emitted" id="receiptEmittedAt"></p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeReceiptModal()">Cancelar</button>
+                <button class="btn-secondary" onclick="printReceipt()">🖨️ Imprimir</button>
+                <button class="btn-primary" onclick="downloadReceipt()">⬇️ Baixar PDF</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="../js/associate_detail.js"></script>
 </body>
 </html>l>

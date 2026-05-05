@@ -103,3 +103,125 @@
 .autocomplete-list li:hover {
     background-color: #f3f4f6;
 }
+
+/* Botão editar na tabela */
+.btn-edit {
+    background: none;
+    border: 1.5px solid #d1d5db;
+    border-radius: 6px;
+    padding: 5px 10px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    color: #374151;
+    transition: background-color 0.15s, border-color 0.15s;
+}
+
+.btn-edit:hover {
+    background-color: #f3f4f6;
+    border-color: #1a6fd4;
+    color: #1a6fd4;
+}
+
+/* Select no modal de edição */
+.modal select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1.5px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: #111827;
+    background-color: #ffffff;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.modal select:focus {
+    border-color: #1a6fd4;
+}
+
+/* Input desabilitado (nome do associado no modal edição) */
+.modal input:disabled {
+    background-color: #f9fafb;
+    color: #6b7280;
+    cursor: not-allowed;
+}
+
+/* Botão recibo na tabela */
+.btn-receipt {
+    background: none;
+    border: 1.5px solid #d1d5db;
+    border-radius: 6px;
+    padding: 5px 10px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    color: #374151;
+    margin-left: 6px;
+    transition: background-color 0.15s, border-color 0.15s;
+}
+
+.btn-receipt:hover {
+    background-color: #f3f4f6;
+    border-color: #16a34a;
+    color: #16a34a;
+}
+
+/* Modal de recibo */
+.modal-receipt {
+    max-width: 480px;
+}
+
+#receiptContent h1 {
+    text-align: center;
+    font-size: 1.3rem;
+    margin-bottom: 2px;
+    color: #111827;
+}
+
+#receiptContent h2 {
+    text-align: center;
+    font-size: 1rem;
+    font-weight: normal;
+    color: #6b7280;
+    margin-top: 0;
+    margin-bottom: 12px;
+}
+
+#receiptContent hr {
+    border: none;
+    border-top: 1px solid #e5e7eb;
+    margin: 12px 0;
+}
+
+#receiptContent table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 8px 0;
+}
+
+#receiptContent td {
+    padding: 6px 4px;
+    font-size: 0.9rem;
+    color: #111827;
+}
+
+#receiptContent td:first-child {
+    font-weight: 600;
+    width: 160px;
+    color: #374151;
+}
+
+.receipt-footer {
+    text-align: center;
+    font-size: 0.85rem;
+    color: #6b7280;
+    font-style: italic;
+    margin-top: 12px;
+}
+
+.receipt-emitted {
+    text-align: center;
+    font-size: 0.82rem;
+    color: #9ca3af;
+    margin-top: 4px;
+}
