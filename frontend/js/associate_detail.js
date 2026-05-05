@@ -420,6 +420,7 @@ function renderPaymentHistory(payments) {
             </td>
             <td>
                 <button class="btn-edit" onclick="openEditPaymentModal(${p.id}, '${competence}', '${paymentDate}', ${p.value}, ${p.status})">✏️ Editar</button>
+                <button class="btn-receipt" onclick="generateReceipt('${competence}', '${paymentDate}', ${p.value}, ${p.status})">🧾 Recibo</button>
             </td>
         </tr>`
     }).join("")
@@ -513,3 +514,74 @@ document.addEventListener("keydown", function(e) {
     if (e.key === "Escape" && editActive) closeEditPaymentModal()
     if (e.key === "Enter" && editActive) saveEditPayment()
 })
+function generateReceipt(competence, paymentDate, value, status) {
+    const { jsPDF } = window.jspdf
+    const doc = new jsPDF()
+
+    const associateName = currentAssociate?.name || "—"
+    const associateCPF = currentAssociate?.cpf ? formatCPF(currentAssociate.cpf) : "—"
+
+    const competenceFormatted = formatDate(competence)
+    const paymentDateFormatted = formatDate(paymentDate)
+    const valueFormatted = formatCurrency(value)
+    const statusText = status ? "Pago" : "Pendente"
+
+    const pageWidth = doc.internal.pageSize.getWidth()
+    const margin = 20
+
+    // Cabeçalho
+    doc.setFontSize(16)
+    doc.setFont("helvetica", "bold")
+    doc.text("CESJB", pageWidth / 2, 25, { align: "center" })
+
+    doc.setFontSize(13)
+    doc.text("Recibo de Pagamento", pageWidth / 2, 34, { align: "center" })
+
+    // Linha separadora
+    doc.setDrawColor(180)
+    doc.line(margin, 40, pageWidth - margin, 40)
+
+    // Dados
+    doc.setFontSize(11)
+    doc.setFont("helvetica", "normal")
+
+    const fields = [
+        ["Associado:", associateName],
+        ["CPF:", associateCPF],
+        ["Competência:", competenceFormatted],
+        ["Data do Pagamento:", paymentDateFormatted],
+        ["Valor:", valueFormatted],
+        ["Status:", statusText],
+    ]
+
+    let y = 55
+    fields.forEach(([label, val]) => {
+        doc.setFont("helvetica", "bold")
+        doc.text(label, margin, y)
+        doc.setFont("helvetica", "normal")
+        doc.text(val, margin + 55, y)
+        y += 10
+    })
+
+    // Linha separadora
+    doc.setDrawColor(180)
+    doc.line(margin, y + 5, pageWidth - margin, y + 5)
+
+    // Rodapé
+    doc.setFontSize(10)
+    doc.setFont("helvetica", "italic")
+    doc.text(
+        "Declaro que recebi a quantia acima referente à contribuição do associado.",
+        pageWidth / 2,
+        y + 18,
+        { align: "center" }
+    )
+
+    const today = new Date().toLocaleDateString("pt-BR")
+    doc.setFont("helvetica", "normal")
+    doc.text(`Emitido em: ${today}`, pageWidth / 2, y + 28, { align: "center" })
+
+    // Download
+    const filename = `recibo_${associateName.replace(/\s+/g, "_")}_${competenceFormatted.replace(/\//g, "-")}.pdf`
+    doc.save(filename)
+}
