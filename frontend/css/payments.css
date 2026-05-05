@@ -165,3 +165,63 @@
     border-color: #16a34a;
     color: #16a34a;
 }
+
+/* Modal de recibo */
+.modal-receipt {
+    max-width: 480px;
+}
+
+#receiptContent h1 {
+    text-align: center;
+    font-size: 1.3rem;
+    margin-bottom: 2px;
+    color: #111827;
+}
+
+#receiptContent h2 {
+    text-align: center;
+    font-size: 1rem;
+    font-weight: normal;
+    color: #6b7280;
+    margin-top: 0;
+    margin-bottom: 12px;
+}
+
+#receiptContent hr {
+    border: none;
+    border-top: 1px solid #e5e7eb;
+    margin: 12px 0;
+}
+
+#receiptContent table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 8px 0;
+}
+
+#receiptContent td {
+    padding: 6px 4px;
+    font-size: 0.9rem;
+    color: #111827;
+}
+
+#receiptContent td:first-child {
+    font-weight: 600;
+    width: 160px;
+    color: #374151;
+}
+
+.receipt-footer {
+    text-align: center;
+    font-size: 0.85rem;
+    color: #6b7280;
+    font-style: italic;
+    margin-top: 12px;
+}
+
+.receipt-emitted {
+    text-align: center;
+    font-size: 0.82rem;
+    color: #9ca3af;
+    margin-top: 4px;
+}
