@@ -103,3 +103,65 @@
 .autocomplete-list li:hover {
     background-color: #f3f4f6;
 }
+
+/* Botão editar na tabela */
+.btn-edit {
+    background: none;
+    border: 1.5px solid #d1d5db;
+    border-radius: 6px;
+    padding: 5px 10px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    color: #374151;
+    transition: background-color 0.15s, border-color 0.15s;
+}
+
+.btn-edit:hover {
+    background-color: #f3f4f6;
+    border-color: #1a6fd4;
+    color: #1a6fd4;
+}
+
+/* Select no modal de edição */
+.modal select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1.5px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: #111827;
+    background-color: #ffffff;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.modal select:focus {
+    border-color: #1a6fd4;
+}
+
+/* Input desabilitado (nome do associado no modal edição) */
+.modal input:disabled {
+    background-color: #f9fafb;
+    color: #6b7280;
+    cursor: not-allowed;
+}
+
+/* Botão recibo na tabela */
+.btn-receipt {
+    background: none;
+    border: 1.5px solid #d1d5db;
+    border-radius: 6px;
+    padding: 5px 10px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    color: #374151;
+    margin-left: 6px;
+    transition: background-color 0.15s, border-color 0.15s;
+}
+
+.btn-receipt:hover {
+    background-color: #f3f4f6;
+    border-color: #16a34a;
+    color: #16a34a;
+}
