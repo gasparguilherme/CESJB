@@ -515,9 +515,6 @@ document.addEventListener("keydown", function(e) {
     if (e.key === "Enter" && editActive) saveEditPayment()
 })
 function generateReceipt(competence, paymentDate, value, status) {
-    const { jsPDF } = window.jspdf
-    const doc = new jsPDF()
-
     const associateName = currentAssociate?.name || "—"
     const associateCPF = currentAssociate?.cpf ? formatCPF(currentAssociate.cpf) : "—"
 
@@ -525,11 +522,34 @@ function generateReceipt(competence, paymentDate, value, status) {
     const paymentDateFormatted = formatDate(paymentDate)
     const valueFormatted = formatCurrency(value)
     const statusText = status ? "Pago" : "Pendente"
+    const today = new Date().toLocaleDateString("pt-BR")
 
+    // preenche o modal do recibo
+    document.getElementById("receiptAssociateName").textContent = associateName
+    document.getElementById("receiptCPF").textContent = associateCPF
+    document.getElementById("receiptCompetence").textContent = competenceFormatted
+    document.getElementById("receiptPaymentDate").textContent = paymentDateFormatted
+    document.getElementById("receiptValue").textContent = valueFormatted
+    document.getElementById("receiptStatus").textContent = statusText
+    document.getElementById("receiptEmittedAt").textContent = `Emitido em: ${today}`
+
+    // guarda dados para uso no download/print
+    window._receiptData = { associateName, associateCPF, competenceFormatted, paymentDateFormatted, valueFormatted, statusText, today, competence }
+
+    document.getElementById("receiptModalOverlay").classList.add("active")
+}
+
+function closeReceiptModal() {
+    document.getElementById("receiptModalOverlay").classList.remove("active")
+}
+
+function downloadReceipt() {
+    const { jsPDF } = window.jspdf
+    const d = window._receiptData
+    const doc = new jsPDF()
     const pageWidth = doc.internal.pageSize.getWidth()
     const margin = 20
 
-    // Cabeçalho
     doc.setFontSize(16)
     doc.setFont("helvetica", "bold")
     doc.text("CESJB", pageWidth / 2, 25, { align: "center" })
@@ -537,21 +557,17 @@ function generateReceipt(competence, paymentDate, value, status) {
     doc.setFontSize(13)
     doc.text("Recibo de Pagamento", pageWidth / 2, 34, { align: "center" })
 
-    // Linha separadora
     doc.setDrawColor(180)
     doc.line(margin, 40, pageWidth - margin, 40)
 
-    // Dados
     doc.setFontSize(11)
-    doc.setFont("helvetica", "normal")
-
     const fields = [
-        ["Associado:", associateName],
-        ["CPF:", associateCPF],
-        ["Competência:", competenceFormatted],
-        ["Data do Pagamento:", paymentDateFormatted],
-        ["Valor:", valueFormatted],
-        ["Status:", statusText],
+        ["Associado:", d.associateName],
+        ["CPF:", d.associateCPF],
+        ["Competência:", d.competenceFormatted],
+        ["Data do Pagamento:", d.paymentDateFormatted],
+        ["Valor:", d.valueFormatted],
+        ["Status:", d.statusText],
     ]
 
     let y = 55
@@ -563,25 +579,51 @@ function generateReceipt(competence, paymentDate, value, status) {
         y += 10
     })
 
-    // Linha separadora
     doc.setDrawColor(180)
     doc.line(margin, y + 5, pageWidth - margin, y + 5)
 
-    // Rodapé
     doc.setFontSize(10)
     doc.setFont("helvetica", "italic")
     doc.text(
         "Declaro que recebi a quantia acima referente à contribuição do associado.",
-        pageWidth / 2,
-        y + 18,
-        { align: "center" }
+        pageWidth / 2, y + 18, { align: "center" }
     )
-
-    const today = new Date().toLocaleDateString("pt-BR")
     doc.setFont("helvetica", "normal")
-    doc.text(`Emitido em: ${today}`, pageWidth / 2, y + 28, { align: "center" })
+    doc.text(`Emitido em: ${d.today}`, pageWidth / 2, y + 28, { align: "center" })
 
-    // Download
-    const filename = `recibo_${associateName.replace(/\s+/g, "_")}_${competenceFormatted.replace(/\//g, "-")}.pdf`
+    const filename = `recibo_${d.associateName.replace(/\s+/g, "_")}_${d.competenceFormatted.replace(/\//g, "-")}.pdf`
     doc.save(filename)
+}
+
+function printReceipt() {
+    const printArea = document.getElementById("receiptContent").innerHTML
+    const win = window.open("", "_blank", "width=600,height=500")
+    win.document.write(`
+        <html>
+        <head>
+            <title>Recibo de Pagamento</title>
+            <style>
+                body { font-family: Arial, sans-serif; padding: 40px; color: #111; }
+                h1 { text-align: center; font-size: 20px; margin-bottom: 4px; }
+                h2 { text-align: center; font-size: 15px; font-weight: normal; margin-top: 0; }
+                hr { border: none; border-top: 1px solid #ccc; margin: 16px 0; }
+                table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+                td { padding: 8px 4px; font-size: 14px; }
+                td:first-child { font-weight: bold; width: 180px; }
+                .footer { text-align: center; font-size: 12px; color: #555; margin-top: 24px; font-style: italic; }
+            </style>
+        </head>
+        <body>${printArea}</body>
+        </html>
+    `)
+    win.document.close()
+    win.focus()
+    win.print()
+    win.close()
+}
+
+function closeReceiptModalOnOverlay(event) {
+    if (event.target === document.getElementById("receiptModalOverlay")) {
+        closeReceiptModal()
+    }
 }
