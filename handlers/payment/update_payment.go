@@ -43,7 +43,8 @@ func (h Handler) UpdatePayment(w http.ResponseWriter, r *http.Request) {
 	payment.ID = id
 
 	// 5. Chamar service
-	updated, err := h.service.UpdatePayment(payment.ID, payment.Competence, payment.PaymentDate, payment.Value, payment.Status)
+	updated, err := h.service.UpdatePayment(payment.ID, payment.Competence, payment.PaymentDate, payment.Value,
+		payment.Status)
 	if err != nil {
 		if errors.Is(err, domain.ErrPaymentNotFound) {
 			w.WriteHeader(http.StatusNotFound)

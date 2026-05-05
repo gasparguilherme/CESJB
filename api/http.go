@@ -53,6 +53,9 @@ func StartApp(associateHandler Associate, adminHandler Admin, paymentHandler Pay
 	mux.Handle("GET /payments/associate/{id}", middlewares.Logger(middlewares.Authenticate(
 		http.HandlerFunc(paymentHandler.GetPaymentsByAssociate))))
 
+	mux.Handle("PUT /payment/{id}", middlewares.Logger(middlewares.Authenticate(
+		http.HandlerFunc(paymentHandler.UpdatePayment))))
+
 	slog.Info("servidor iniciado", "porta", config.APIPort)
 	if err := http.ListenAndServe(config.APIPort, middlewares.CORS(mux)); err != nil {
 		slog.Error("erro ao iniciar o servidor", "error", err)
